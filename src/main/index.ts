@@ -83,11 +83,22 @@ app.on('window-all-closed', () => {
 ipcMain.handle('open-file-dialog', () => {
   const win = new BrowserWindow({
     width: 1000,
-    height: 670
+    height: 670,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+
+      // // 在此处设置网络环境，例如：
+      // // proxy: {
+      // //   host: 'proxy.example.com',
+      // //   port: 12345,
+      // // },
+      allowRunningInsecureContent: true
+    }
   })
 
-  win.loadURL(' chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+  // win.loadFile(' chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
   // win.loadURL(' https://yiyan.baidu.com/')
-  // win.loadFile(' https://yiyan.baidu.com/')
+  win.loadURL(join(app.getPath('desktop'), '/3.1.2_0/index.html'))
   console.log('ppppppp')
 })
