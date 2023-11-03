@@ -15,19 +15,34 @@
       <div class="t-content">
         <span>源语言</span>
         <el-select v-model="value" class="m-2" placeholder="检测语言" size="small">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
       <div class="t-content">
         <span>目标语言</span>
         <el-select v-model="value" class="m-2" placeholder="英文" size="small">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
       <div class="t-content">
         <span>接受语言</span>
         <el-select v-model="value" class="m-2" placeholder="中文(简体)" size="small">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </div>
     </div>

@@ -1,6 +1,13 @@
 <template>
   <el-table :data="tableData" style="width: 100%; height: 90vh">
-    <el-table-column label="序号" width="80">
+    <el-table-column label="序号" width="70">
+      <template #default="scope">
+        <div style="display: flex; align-items: center">
+          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column label="创建于" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
@@ -8,7 +15,7 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="创建于" width="135">
+    <el-table-column label="会话记录" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
@@ -16,7 +23,7 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="会话记录" width="135">
+    <el-table-column label="用户名" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
@@ -24,7 +31,7 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="用户名" width="135">
+    <el-table-column label="最后修改" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
@@ -32,15 +39,7 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="最后修改" width="135">
-      <template #default="scope">
-        <div style="display: flex; align-items: center">
-          <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
-        </div>
-      </template>
-    </el-table-column>
-    <el-table-column label="备注信息" width="135">
+    <el-table-column label="备注信息" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
@@ -49,7 +48,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="操作" width="auto">
+    <el-table-column label="操作" min-width="130">
       <template #default="scope">
         <el-button round size="small" @click="handleEdit(scope.$index, scope.row)">启动</el-button>
         <el-button round size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"
@@ -81,26 +80,25 @@ const handleDelete = (index, row) => {
 
 const tableData = [
   {
-    date: '2016-05-03',
+    date: '1',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles'
   },
   {
-    date: '2016-05-02',
+    date: '1',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles'
   },
   {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
+    date: '1',
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles'
   }
 ]
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-table .el-table-column thead {
+  background-color: #666464;
+}
+</style>

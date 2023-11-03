@@ -2,7 +2,7 @@
   <div class="setting">
     <p>更多设置</p>
     <el-card class="box-card">
-      <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+      <el-tabs v-model="activeName" class="demo-tabs" stretch="true" @tab-click="handleClick">
         <el-tab-pane name="first">
           <template #label>
             <span class="custom-tabs-label">
@@ -28,7 +28,7 @@
               <span>快捷设置</span>
             </span>
           </template>
-          快捷设置
+          <shortcutSettings></shortcutSettings>
         </el-tab-pane>
         <el-tab-pane>
           <template #label>
@@ -47,25 +47,27 @@
               <span>网络检查</span>
             </span>
           </template>
-          网络检查
+          <networkChecks></networkChecks>
         </el-tab-pane>
       </el-tabs>
     </el-card>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
+// import type { TabsPaneContext } from 'element-plus'
 import { Document, Monitor, Switch, House, Filter } from '@element-plus/icons-vue'
 
 // 引用组件
 import supportPlatforms from './Support Platforms/index.vue'
 import translationSettings from './translationSettings/index.vue'
 import networkSettings from './networkSettings/index.vue'
+import shortcutSettings from './shortcutSettings/index.vue'
+import networkChecks from './networkChecks/index.vue'
 const activeName = ref('first')
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
+const handleClick = (tab, event) => {
   console.log(tab, event)
 }
 </script>

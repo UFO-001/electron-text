@@ -122,7 +122,7 @@ const numberOfProcessing = (name, boolean, imgUrl) => {
     li {
       display: flex;
       height: 15vh;
-      width: 25vw;
+      width: 24vw;
       // margin: 2vh;
       cursor: pointer;
       border: 1px solid #f8f7f7;

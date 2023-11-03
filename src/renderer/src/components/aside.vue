@@ -7,8 +7,8 @@
     @open="handleOpen"
     @close="handleClose"
   >
-    <el-button type="info" plain :icon="collapseIcon" @click="meunBtn" />
-
+    <el-button plain :icon="collapseIcon" @click="meunBtn" />
+    <!-- <el-divider /> -->
     <el-sub-menu
       v-for="item in children"
       :key="item.name"
@@ -35,8 +35,17 @@
       <template #title>{{ item.name }}</template>
     </el-menu-item>
 
+    <el-divider />
+    <el-menu-item index="/quickReplies">
+      <el-icon style="margin-right: 30px"
+        ><img src="../assets/image/快捷菜单.png" alt="" style="width: 30px; height: 30px"
+      /></el-icon>
+      <template #title>快捷回复</template>
+    </el-menu-item>
     <el-menu-item index="/setting">
-      <el-icon><setting /></el-icon>
+      <el-icon style="margin-right: 30px"
+        ><img src="../assets/image/bg-setup.png" alt="" style="width: 30px; height: 30px"
+      /></el-icon>
       <template #title>更多设置</template>
     </el-menu-item>
   </el-menu>
@@ -105,7 +114,16 @@ const offeee = (item) => {
   overflow: hidden;
   .el-button {
     width: 100%;
+    border-radius: 0;
     height: 5vh;
+    border: none;
+    &:hover {
+      box-shadow: 0 0 10px rgba(71, 69, 69, 0.5);
+    }
+  }
+  .el-divider {
+    margin: 0;
+    padding: 0;
   }
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {

@@ -64,6 +64,8 @@ import Table from './table/index.vue'
           border-radius: 2vh;
           overflow: hidden;
           margin-right: 12px;
+          text-align: center;
+          line-height: 3vh;
           padding: auto;
           background-color: rgb(62, 230, 90);
         }

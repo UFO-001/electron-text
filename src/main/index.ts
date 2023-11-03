@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, session, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, session, ipcMain, Extension } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -6,8 +6,8 @@ import icon from '../../resources/icon.png?asset'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 670,
+    width: 1100,
+    height: 750,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -17,7 +17,9 @@ function createWindow(): void {
       plugins: true,
       nodeIntegration: true,
       contextIsolation: false,
-      allowRunningInsecureContent: true
+      allowRunningInsecureContent: true,
+      nodeIntegrationInWorker: true,
+      nodeIntegrationInSubFrames: true
     }
   })
 
@@ -47,10 +49,11 @@ app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron')
 
   await session.defaultSession.loadExtension(
-    join(app.getPath('desktop'), '/3.1.2_0'),
+    join(app.getPath('desktop'), '/3.1.2_0')
+
     // 打开本地文件也应用拓展
     // C:\Users\Mayn\AppData\Local\Google\Chrome\User Data\Default\Extensions\ophjlpahpchlmihnnnihgmmeilfjmjjc\3.1.2_0
-    { allowFileAccess: true }
+    // { allowFileAccess: true }
   )
 
   const a = session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')
@@ -86,17 +89,31 @@ app.on('window-all-closed', () => {
 
 ipcMain.handle('open-file-dialog', () => {
   const win = new BrowserWindow({
-    width: 1000,
-    height: 670,
+    width: 1100,
+    height: 750,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      allowRunningInsecureContent: true
+      allowRunningInsecureContent: true,
+      nodeIntegrationInWorker: true,
+      nodeIntegrationInSubFrames: true,
+
+      plugins: true
     }
   })
 
-  // win.loadFile(' chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+  if (session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')) {
+    // win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+    console.log('ppppppp')
+    // win.loadFile(join(app.getPath('desktop'), '/3.1.2_0/index.html'))
+    win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+
+    console.log(session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc'), 'lllll')
+  }
+  //  win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
   // win.loadURL(' https://yiyan.baidu.com/')
-  win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html' + '#/friends')
-  console.log('ppppppp')
+  // win.loadURL('http://127.0.0.1:5000/' + join(app.getPath('desktop'), '/3.1.2_0/index.html'))
+  // console.log(session.defaultSession.extension.getURL, 'dfffd')
+
+  // console.log('ppppppp')
 })
