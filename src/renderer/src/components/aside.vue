@@ -102,6 +102,7 @@ const offeee = (item) => {
 <style lang="scss" scoped>
 .el-menu {
   height: 100vh;
+  overflow: hidden;
   .el-button {
     width: 100%;
     height: 5vh;

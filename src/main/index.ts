@@ -16,7 +16,8 @@ function createWindow(): void {
       sandbox: false,
       plugins: true,
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      allowRunningInsecureContent: true
     }
   })
 
@@ -51,6 +52,9 @@ app.whenReady().then(async () => {
     // C:\Users\Mayn\AppData\Local\Google\Chrome\User Data\Default\Extensions\ophjlpahpchlmihnnnihgmmeilfjmjjc\3.1.2_0
     { allowFileAccess: true }
   )
+
+  const a = session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')
+  console.log(a.url, 'a')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -87,18 +91,12 @@ ipcMain.handle('open-file-dialog', () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-
-      // // 在此处设置网络环境，例如：
-      // // proxy: {
-      // //   host: 'proxy.example.com',
-      // //   port: 12345,
-      // // },
       allowRunningInsecureContent: true
     }
   })
 
   // win.loadFile(' chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
   // win.loadURL(' https://yiyan.baidu.com/')
-  win.loadURL(join(app.getPath('desktop'), '/3.1.2_0/index.html'))
+  win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html' + '#/friends')
   console.log('ppppppp')
 })

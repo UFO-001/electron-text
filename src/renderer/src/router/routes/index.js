@@ -7,10 +7,7 @@ export const routes = [
         path: '/setting',
         component: () => import('@views/setting/index.vue')
       },
-      {
-        path: '/text',
-        component: () => import('@views/text/index.vue')
-      },
+
       {
         path: '/user1',
         component: () => import('@views/user/index.vue')
