@@ -1,11 +1,12 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-aside width="auto">
-        <!-- 侧边栏 -->
-        <Aside></Aside>
-      </el-aside>
+      <el-header> <Header></Header> </el-header>
       <el-container>
+        <el-aside width="auto">
+          <!-- 侧边栏 -->
+          <Aside></Aside>
+        </el-aside>
         <el-main>
           <router-view></router-view>
         </el-main>
@@ -17,6 +18,7 @@
 <script setup lang="ts">
 //引入侧边栏
 import Aside from '@components/aside.vue'
+import Header from '@components/header.vue'
 </script>
 
 <style scoped lang="scss">
@@ -24,5 +26,16 @@ import Aside from '@components/aside.vue'
   padding: 0px;
   margin: 0;
   border: 0;
+}
+.common-layout {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+.el-container .el-header {
+  padding: 0px;
+  margin: 0;
+  border: 0;
+  height: 4vh;
 }
 </style>

@@ -17,7 +17,7 @@
               <span>{{ item.name }}</span>
             </span>
           </template>
-          {{ item.name }}
+          <Public :foo="item.name" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -27,6 +27,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
+
+//引入公共组件
+import Public from './compontent/index.vue'
 
 const activeName = ref('Zalo')
 

@@ -1,7 +1,11 @@
-import { app, shell, BrowserWindow, session, ipcMain, Extension } from 'electron'
+import { app, shell, BrowserWindow, session, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+
+//引入封装组件
+import EventRouter from './router/EventRouter.js'
+import routers from './router/router.template.js'
 
 function createWindow(): void {
   // Create the browser window.
@@ -10,6 +14,8 @@ function createWindow(): void {
     height: 750,
     show: false,
     autoHideMenuBar: true,
+    resizable: true,
+    // frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -25,6 +31,26 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+  })
+
+  //封装过后的关闭窗口
+  const eventRouter = new EventRouter()
+  eventRouter.addApi('app', app)
+  eventRouter.addApi('dialog', dialog)
+  eventRouter.addApi('window', mainWindow)
+  eventRouter.addApi('BrowserWindow', BrowserWindow)
+  eventRouter.addRoutes(routers)
+  //接收渲染进程的参数
+  ipcMain.handle('renderer-to-main', (e, data) => {
+    //data就是渲染进程传过来的参数
+    eventRouter.router(data)
+  })
+
+  // 拖拽事件
+  ipcMain.handle('move-application', (e, data) => {
+    const [x, y] = mainWindow.getPosition()
+    mainWindow.setPosition(x + data.posX, y + data.posY)
+    // console.log(x, y, 'uuuuuu')
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

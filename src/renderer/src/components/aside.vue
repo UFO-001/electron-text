@@ -1,9 +1,9 @@
 <template>
   <el-menu
-    router
     default-active="/setting"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
+    router
     @open="handleOpen"
     @close="handleClose"
   >
@@ -52,8 +52,8 @@
 </template>
 
 <script setup>
-import { ref, watch, reactive, computed, onMounted } from 'vue'
-import { Setting, ArrowLeftBold, ArrowRightBold } from '@element-plus/icons-vue'
+import { ref, watch, reactive, onMounted } from 'vue'
+import { ArrowLeftBold, ArrowRightBold } from '@element-plus/icons-vue'
 
 //引入菜单列表状态管理库
 import { usePlatformStore } from '@store'
@@ -112,11 +112,13 @@ const offeee = (item) => {
 .el-menu {
   height: 100vh;
   overflow: hidden;
+  background-color: #f1f1f1;
   .el-button {
     width: 100%;
     border-radius: 0;
     height: 5vh;
     border: none;
+    background-color: #f1f1f1;
     &:hover {
       box-shadow: 0 0 10px rgba(71, 69, 69, 0.5);
     }

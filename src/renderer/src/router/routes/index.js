@@ -1,10 +1,12 @@
 export const routes = [
   {
     path: '/',
+    redirect: '/setting',
     component: () => import('@views/home.vue'),
     children: [
       {
         path: '/setting',
+
         component: () => import('@views/setting/index.vue')
       },
 
