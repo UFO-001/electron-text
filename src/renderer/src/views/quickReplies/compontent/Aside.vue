@@ -8,8 +8,9 @@
         </div>
       </el-button>
 
-      <el-switch v-model="value" inactive-text="快捷窗口" />
+      <el-switch v-model="value" active-text="快捷窗口" />
     </div>
+    <el-divider style="margin: 0; padding: 0"></el-divider>
 
     <el-dialog v-model="dialogFormVisible" title="添加分组" align-center width="40%">
       <el-form :model="form">
@@ -47,10 +48,12 @@ const form = reactive({
 
 <style scoped lang="scss">
 .aside {
+  margin-right: 5px;
   .a-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 5px;
   }
 }
 </style>

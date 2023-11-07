@@ -5,7 +5,8 @@
         <el-aside width="250px">
           <Aside />
         </el-aside>
-        <el-main>
+        <el-divider direction="vertical" />
+        <el-main style="margin: 0; padding: 0">
           <Main />
         </el-main>
       </el-container>
@@ -22,4 +23,8 @@ import Main from './Main.vue'
 // })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-divider {
+  height: 100vh;
+}
+</style>

@@ -3,7 +3,6 @@
     default-active="/setting"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
-    router
     @open="handleOpen"
     @close="handleClose"
   >
@@ -13,7 +12,7 @@
       v-for="item in children"
       :key="item.name"
       :index="`/${item.name}`"
-      @click="offeee(item.name)"
+      @click.self="offeee(item.name)"
     >
       <template #title>
         <el-icon style="margin-right: 30px"
@@ -22,13 +21,22 @@
 
         {{ item.name }}
       </template>
-      <el-menu-item-group v-if="item.children">
-        <el-menu-item v-for="childrenItem in item.children" :key="childrenItem" index="/user2"
-          >item one</el-menu-item
-        >
-      </el-menu-item-group>
+
+      <el-menu-item
+        v-for="childrenItem in item.children"
+        :key="childrenItem"
+        :index="childrenItem"
+        @click.self="jump('user')"
+        >item one</el-menu-item
+      >
     </el-sub-menu>
-    <el-menu-item v-for="item in noChildren" :key="item" :index="`/${item.name}`">
+
+    <el-menu-item
+      v-for="item in noChildren"
+      :key="item"
+      :index="`/${item.name}`"
+      @click.self="jump(item.name)"
+    >
       <el-icon style="margin-right: 30px"
         ><img :src="item.imgUrl" alt="" style="width: 30px; height: 30px"
       /></el-icon>
@@ -36,13 +44,13 @@
     </el-menu-item>
 
     <el-divider />
-    <el-menu-item index="/quickReplies">
+    <el-menu-item index="/quickReplies" @click.self="jump('quickReplies')">
       <el-icon style="margin-right: 30px"
         ><img src="../assets/image/快捷菜单.png" alt="" style="width: 30px; height: 30px"
       /></el-icon>
       <template #title>快捷回复</template>
     </el-menu-item>
-    <el-menu-item index="/setting">
+    <el-menu-item index="/setting" @click.self="jump('setting')">
       <el-icon style="margin-right: 30px"
         ><img src="../assets/image/bg-setup.png" alt="" style="width: 30px; height: 30px"
       /></el-icon>
@@ -64,11 +72,21 @@ const router = useRouter()
 const platformStore = usePlatformStore()
 
 const isCollapse = ref(true)
+//打开
 const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
+  if (key !== '/setting' && key !== '/quickReplies') {
+    router.push(key)
+  }
+
+  // console.log(key, keyPath, 'open')
 }
+//关闭
 const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
+  if (key !== '/setting' && key !== '/quickReplies') {
+    router.push(key)
+  }
+
+  // console.log(key, keyPath, 'closer')
 }
 
 //侧边栏收缩与展开
@@ -102,8 +120,9 @@ watch(
   }
 )
 
-const offeee = (item) => {
-  console.log(item, 'dddddd')
+//跳转
+const jump = (item) => {
+  // console.log(item, 'dddddd')
   router.push('/' + item)
 }
 </script>

@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, session, ipcMain, dialog } from 'electron'
+import { app, shell, BrowserWindow, BrowserView, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -33,6 +33,10 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  // const view = new BrowserView()
+  // view.setBounds({ x: 300, y: 200, width: 500, height: 500 })
+  // mainWindow.setBrowserView(view)
+  // view.webContents.loadURL('https://baidu.com')
   //封装过后的关闭窗口
   const eventRouter = new EventRouter()
   eventRouter.addApi('app', app)
@@ -74,17 +78,6 @@ app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
-  await session.defaultSession.loadExtension(
-    join(app.getPath('desktop'), '/3.1.2_0')
-
-    // 打开本地文件也应用拓展
-    // C:\Users\Mayn\AppData\Local\Google\Chrome\User Data\Default\Extensions\ophjlpahpchlmihnnnihgmmeilfjmjjc\3.1.2_0
-    // { allowFileAccess: true }
-  )
-
-  const a = session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')
-  console.log(a.url, 'a')
-
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
@@ -123,23 +116,33 @@ ipcMain.handle('open-file-dialog', () => {
       allowRunningInsecureContent: true,
       nodeIntegrationInWorker: true,
       nodeIntegrationInSubFrames: true,
-
       plugins: true
     }
   })
 
-  if (session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')) {
-    // win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
-    console.log('ppppppp')
-    // win.loadFile(join(app.getPath('desktop'), '/3.1.2_0/index.html'))
-    win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+  // if (session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')) {
+  //   // win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+  //   console.log('ppppppp')
+  //   // win.loadFile(join(app.getPath('desktop'), '/3.1.2_0/index.html'))
+  //   win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
 
-    console.log(session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc'), 'lllll')
-  }
-  //  win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
+  //   console.log(session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc'), 'lllll')
+  // }
+  // win.webContents.session.setProxy({
+  //   proxyRules: 'http=foopy:80',
+  //   proxyBypassRules: 'localhost, 127.0.0.1'
+  // }))
+
+  // win.loadURL('https://www.google.com')
+
   // win.loadURL(' https://yiyan.baidu.com/')
-  // win.loadURL('http://127.0.0.1:5000/' + join(app.getPath('desktop'), '/3.1.2_0/index.html'))
+  // win.loadURL('http://localhost:3000/' + join(app.getPath('desktop'), '/3.1.2_0/index.html'))
   // console.log(session.defaultSession.extension.getURL, 'dfffd')
 
-  // console.log('ppppppp')
+  win.webContents.session.loadExtension(join(app.getPath('desktop'), '/10.2.0.9952_0'))
+  win.webContents.session.on('extension-ready', (e, ex) => {
+    // console.log(ex.path, ex.url, 'lllllllllllllllllllllllllllllllllllllllll')
+    win.loadURL(ex.url + 'browserActionPopup.html')
+  })
+  // win.loadURL('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/browserActionPopup.html')
 })

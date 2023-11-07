@@ -19,8 +19,16 @@ export const routes = [
         component: () => import('@views/user/index.vue')
       },
       {
+        path: '/Skype',
+        component: () => import('@views/asideFrom/skype.vue')
+      },
+      {
         path: '/user2',
         component: () => import('@views/user/user2.vue')
+      },
+      {
+        path: '/user',
+        component: () => import('@views/user/user.vue')
       },
       {
         path: '/quickReplies',
