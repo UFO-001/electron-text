@@ -26,6 +26,7 @@ const isDown = ref(false) // 鼠标状态
 const baseX = ref(0),
   baseY = ref(0) //监听坐标
 
+//窗口移动
 const mouseDown = (e) => {
   isDown.value = true
   baseX.value = e.clientX
@@ -54,6 +55,7 @@ const mouseleave = () => {
   isDown.value = false
 }
 
+//窗口最小化
 const minusEvent = () => {
   window.electron.ipcRenderer.invoke('renderer-to-main', {
     name: 'min-window',
@@ -62,6 +64,7 @@ const minusEvent = () => {
   })
 }
 
+//窗口最大化
 const fullScreenEvent = () => {
   window.electron.ipcRenderer.invoke('renderer-to-main', {
     name: 'max-window',
@@ -69,6 +72,8 @@ const fullScreenEvent = () => {
     data: 'null'
   })
 }
+
+//窗口关闭
 const closeBoldEvent = () => {
   window.electron.ipcRenderer.invoke('renderer-to-main', {
     name: 'close-window',

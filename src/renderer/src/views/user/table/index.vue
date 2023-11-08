@@ -4,15 +4,14 @@
     <el-table-column label="序号" width="70">
       <template #default="scope">
         <div style="display: flex; align-items: center">
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.serialNumber }}</span>
         </div>
       </template>
     </el-table-column>
     <el-table-column label="创建于" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
-          <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.time }}</span>
         </div>
       </template>
     </el-table-column>
@@ -20,33 +19,33 @@
       <template #default="scope">
         <div style="display: flex; align-items: center">
           <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.conversation }}</span>
         </div>
       </template>
     </el-table-column>
     <el-table-column label="用户名" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
-          <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.username }}</span>
         </div>
       </template>
     </el-table-column>
     <el-table-column label="最后修改" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center">
-          <el-icon><timer /></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.modifyTime }}</span>
         </div>
       </template>
     </el-table-column>
     <el-table-column label="备注信息" min-width="130">
       <template #default="scope">
         <div style="display: flex; align-items: center" class="showIcon">
-          <span v-if="showTit" style="width: 120px; margin-right: 10px">{{ scope.row.date }}</span>
+          <span v-if="showTit" style="width: 120px; margin-right: 10px">{{
+            scope.row.remark
+          }}</span>
           <el-input
             v-else
-            v-model="scope.row.date"
+            v-model="scope.row.remark"
             style="margin-right: 10px"
             size="small"
           ></el-input>
@@ -77,10 +76,11 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
+//启动，关闭事件
 const handleEdit = (index, row) => {
   const routePath = route.path.slice(1)
   platformStore.editPlatformList(routePath, row.name)
-  console.log(routePath, row.name, 'llllll')
+  // console.log(routePath, row.name, 'llllll')
 
   console.log(index, row, routePath)
 }
@@ -88,6 +88,7 @@ const handleDelete = (index, row) => {
   console.log(index, row)
 }
 
+//备注事件
 const showTit = ref(true)
 const edit = (rowValue) => {
   if (!showTit.value) {
@@ -98,19 +99,12 @@ const edit = (rowValue) => {
 
 const tableData = reactive([
   {
-    date: '1',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '1',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '1',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
+    serialNumber: '1',
+    time: '11-07 11.08',
+    conversation: 'No. 189, Grove St, Los Angeles',
+    username: 'ddd',
+    modifyTime: '11-07 11.08',
+    remark: '22'
   }
 ])
 </script>

@@ -4,12 +4,12 @@
       <li v-for="(item, index) in platFrom" :key="index">
         <div class="PF1">
           <input
+            :id="item.name"
             type="checkbox"
             :checked="item.checked"
             :name="item.name"
             :imgUrl="item.imgUrl"
             @click="change"
-            :id="item.name"
           />
           <label :for="item.name">
             <img :src="item.imgUrl" alt="" />
@@ -74,12 +74,12 @@ onMounted(() => {
         item.checked = item2.checked
       }
     })
-    console.log(item.checked)
+    // console.log(item.checked)
   })
 })
 //获取点击的平台
 const change = (e) => {
-  console.log(e.target.name, e.target.attributes.imgUrl)
+  // console.log(e.target.name, e.target.attributes.imgUrl)
 
   const arr = numberOfProcessing(e.target.name, e.target.checked, e.target.attributes.imgUrl)
 
@@ -88,7 +88,7 @@ const change = (e) => {
 
 const numberOfProcessing = (name, boolean, imgUrl) => {
   const platfromList = platformStore.platFromlists
-  console.log(imgUrl, 'imgUrl')
+  // console.log(imgUrl, 'imgUrl')
   if (boolean) {
     platfromList.push({
       name: name,

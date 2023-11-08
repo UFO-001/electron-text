@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const usePlatformStore = defineStore('platform', {
   state: () => {
     return {
-      platFromlists: []
+      platFromlists: [] //激活的平台数据
     }
   },
   getters: {},

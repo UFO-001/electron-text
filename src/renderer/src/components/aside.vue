@@ -2,31 +2,24 @@
   <el-menu
     default-active="/setting"
     class="el-menu-vertical-demo"
+    menu-trigger="click"
     :collapse="isCollapse"
-    @open="handleOpen"
-    @close="handleClose"
+    @select="handleSelect"
   >
     <el-button plain :icon="collapseIcon" @click="meunBtn" />
     <!-- <el-divider /> -->
-    <el-sub-menu
-      v-for="item in children"
-      :key="item.name"
-      :index="`/${item.name}`"
-      @click.self="offeee(item.name)"
-    >
+    <el-sub-menu v-for="item in children" :key="item.name" :index="`/${item.name}`">
       <template #title>
-        <el-icon style="margin-right: 30px"
-          ><img :src="item.imgUrl" alt="" style="width: 30px; height: 30px"
-        /></el-icon>
+        <div @click="jump(item.name)">
+          <el-icon style="margin-right: 30px"
+            ><img :src="item.imgUrl" alt="" style="width: 30px; height: 30px"
+          /></el-icon>
 
-        {{ item.name }}
+          {{ item.name }}
+        </div>
       </template>
 
-      <el-menu-item
-        v-for="childrenItem in item.children"
-        :key="childrenItem"
-        :index="childrenItem"
-        @click.self="jump('user')"
+      <el-menu-item v-for="childrenItem in item.children" :key="childrenItem" index="/user"
         >item one</el-menu-item
       >
     </el-sub-menu>
@@ -72,21 +65,11 @@ const router = useRouter()
 const platformStore = usePlatformStore()
 
 const isCollapse = ref(true)
-//打开
-const handleOpen = (key, keyPath) => {
-  if (key !== '/setting' && key !== '/quickReplies') {
-    router.push(key)
-  }
 
-  // console.log(key, keyPath, 'open')
-}
-//关闭
-const handleClose = (key, keyPath) => {
-  if (key !== '/setting' && key !== '/quickReplies') {
-    router.push(key)
-  }
-
-  // console.log(key, keyPath, 'closer')
+//点击菜单栏回调
+const handleSelect = (index) => {
+  router.push(index)
+  // console.log(index, indexPath, routeResult, 'select')
 }
 
 //侧边栏收缩与展开
@@ -110,9 +93,9 @@ watch(
     children.value = newValue.filter((item) => {
       return item.children?.length !== 0
     })
-    console.log(children.value, 'children.value')
-    console.log(newValue, 'newValue')
-    console.log(noChildren.value, 'noChildern.value ')
+    // console.log(children.value, 'children.value')
+    // console.log(newValue, 'newValue')
+    // console.log(noChildren.value, 'noChildern.value ')
   },
   {
     immediate: true,
@@ -132,6 +115,7 @@ const jump = (item) => {
   height: 100vh;
   overflow: hidden;
   background-color: #f1f1f1;
+
   .el-button {
     width: 100%;
     border-radius: 0;

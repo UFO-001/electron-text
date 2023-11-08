@@ -1,14 +1,21 @@
 <template>
   <div>
-    <el-button text style="margin-left: 10px" @click="drawer = true">
+    <el-button text style="margin: 0 0 5px 10px" @click="drawer = true">
       <div style="display: flex; align-item: center; color: rgb(8, 231, 231)">
         <el-icon><CirclePlus /></el-icon>
         添加快捷回复
       </div>
     </el-button>
+    <el-divider style="margin: 0; padding: 0"></el-divider>
   </div>
 
-  <el-drawer v-model="drawer" title="I am the title" direction="rtl" :before-close="handleClose">
+  <el-drawer
+    v-model="drawer"
+    title="I am the title"
+    direction="rtl"
+    :before-close="handleClose"
+    custom-class="cus"
+  >
     <span>Hi, there!</span>
   </el-drawer>
   <el-drawer v-model="drawer2" :direction="direction">
@@ -30,9 +37,40 @@
   </el-drawer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { CirclePlus } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
+const drawer = ref(false)
+const drawer2 = ref(false)
+const direction = ref('rtl')
+const radio1 = ref('Option 1')
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('Are you sure you want to close this?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+function cancelClick() {
+  drawer2.value = false
+}
+function confirmClick() {
+  ElMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
+    .then(() => {
+      drawer2.value = false
+    })
+    .catch(() => {
+      // catch error
+    })
+}
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.cus {
+  height: 60vh;
+  width: 200px;
+}
+</style>

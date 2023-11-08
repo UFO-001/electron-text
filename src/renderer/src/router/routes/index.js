@@ -16,11 +16,31 @@ export const routes = [
       },
       {
         path: '/Zalo',
-        component: () => import('@views/user/index.vue')
+        component: () => import('@views/asideFrom/Zalo.vue')
       },
       {
         path: '/Skype',
-        component: () => import('@views/asideFrom/skype.vue')
+        component: () => import('@views/asideFrom/Skype.vue')
+      },
+      {
+        path: '/Whatsapp',
+        component: () => import('@views/asideFrom/Whatsapp.vue')
+      },
+      {
+        path: '/Telegram',
+        component: () => import('@views/asideFrom/Telegram.vue')
+      },
+      {
+        path: '/Meta',
+        component: () => import('@views/asideFrom/Meta.vue')
+      },
+      {
+        path: '/Messenger',
+        component: () => import('@views/asideFrom/Messenger.vue')
+      },
+      {
+        path: '/Line',
+        component: () => import('@views/asideFrom/Line.vue')
       },
       {
         path: '/user2',

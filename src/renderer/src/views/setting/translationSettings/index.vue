@@ -1,56 +1,71 @@
 <template>
-  <div class="translaton">
-    <div class="t-top">
-      <div class="general">通用设置</div>
-      <div class="route">
-        <span> 路线切换</span>
-        <el-radio-group v-model="radio">
-          <el-radio :label="1">稳定模式</el-radio>
-          <el-radio :label="2">增强模式</el-radio>
-        </el-radio-group>
+  <el-scrollbar>
+    <div class="translaton">
+      <div class="t-top">
+        <div class="general">通用设置</div>
+        <div class="route">
+          <span> 路线切换</span>
+          <el-radio-group v-model="radio">
+            <el-radio :label="1">稳定模式</el-radio>
+            <el-radio :label="2">增强模式</el-radio>
+          </el-radio-group>
+        </div>
+      </div>
+
+      <div v-for="setItem in platSet" :key="setItem" class="platFromSet">
+        <div class="title">{{ setItem.name }} 的翻译设置</div>
+        <div class="t-content">
+          <span>源语言</span>
+          <el-select v-model="value" class="m-2" placeholder="检测语言" size="small">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div class="t-content">
+          <span>目标语言</span>
+          <el-select v-model="value" class="m-2" placeholder="英文" size="small">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div class="t-content">
+          <span>接受语言</span>
+          <el-select v-model="value" class="m-2" placeholder="中文(简体)" size="small">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
       </div>
     </div>
-    <div class="platFromSet">
-      <div class="title">Whatsapp的翻译设置</div>
-      <div class="t-content">
-        <span>源语言</span>
-        <el-select v-model="value" class="m-2" placeholder="检测语言" size="small">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </div>
-      <div class="t-content">
-        <span>目标语言</span>
-        <el-select v-model="value" class="m-2" placeholder="英文" size="small">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </div>
-      <div class="t-content">
-        <span>接受语言</span>
-        <el-select v-model="value" class="m-2" placeholder="中文(简体)" size="small">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </div>
-    </div>
-  </div>
+  </el-scrollbar>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup>
+import { ref, reactive, onMounted } from 'vue'
+
+import { storeToRefs } from 'pinia'
+import { usePlatformStore } from '@store/index.js'
+
+const platformStore = usePlatformStore()
+const { platFromlists } = storeToRefs(platformStore)
+
+const platSet = ref([])
+onMounted(() => {
+  platSet.value = platFromlists.value
+  console.log(platSet.value, 'eeeeee')
+})
 
 const radio = ref(1)
 
@@ -82,7 +97,9 @@ const options = [
 
 <style scoped lang="scss">
 .translaton {
+  height: 72vh;
   margin: 20px;
+
   .t-top {
     .general {
       font-size: 14px;
@@ -113,6 +130,7 @@ const options = [
         height: 10px;
         font-size: 14px;
         margin-right: 200px;
+        flex-shrink: 0;
       }
     }
   }
