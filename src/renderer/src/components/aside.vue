@@ -53,17 +53,23 @@
     </el-menu>
 
     <!-- 用户信息 -->
-    <Transition> </Transition>
-    <div v-show="!isCollapse" class="card">
-      <div class="content">
-        <el-icon><User /></el-icon>
-        <div class="font">
-          <span>邀请码</span>
-          <span>FDFDFEWFDSFE</span>
+
+    <Transition
+      appear
+      enter-active-class="animate__animated animate__fadeInLeft"
+      leave-active-class="animate__animated animate__fadeOutLeft"
+    >
+      <div v-show="!isCollapse" class="card">
+        <div class="content">
+          <el-icon><User /></el-icon>
+          <div class="font">
+            <span>邀请码</span>
+            <span>FDFDFEWFDSFE</span>
+          </div>
+          <el-icon class="switch" @click="switchButton"><SwitchButton /></el-icon>
         </div>
-        <el-icon class="switch" @click="switchButton"><SwitchButton /></el-icon>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -162,7 +168,8 @@ const jump = (item) => {
     bottom: 50px;
     left: 25px;
     padding: 0;
-    background-color: #fff;
+    background-color: rgba(141, 228, 101, 0.849);
+    border-radius: 10px;
     cursor: pointer;
     .content {
       margin: 10px;
@@ -177,7 +184,7 @@ const jump = (item) => {
       }
       .switch {
         &:hover {
-          color: #ce2323;
+          color: #ff0202;
           animation: name;
         }
       }

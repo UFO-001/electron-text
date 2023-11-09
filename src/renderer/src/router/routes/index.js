@@ -56,10 +56,7 @@ export const routes = [
       }
     ]
   },
-  {
-    path: '/about',
-    component: () => import('@views/about.vue')
-  },
+
   {
     path: '/login',
     component: () => import('@views/login.vue')
