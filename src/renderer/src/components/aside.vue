@@ -38,6 +38,16 @@
       </el-menu-item>
 
       <el-divider />
+      <!-- <el-menu-item v-for="item in functionMenu" :key="item.name" @click.self="jump(item.index)">
+        <img :src="item.imgUrl" alt="" style="width: 30px; height: 30px; margin-right: 30px" />
+        <template #title>{{ item.name }}</template>
+      </el-menu-item> -->
+      <!-- <el-menu-item index="/setting" @click.self="jump('setting')">
+        <el-icon style="margin-right: 30px"
+          ><img :src="setImg" alt="" style="width: 30px; height: 30px"
+        /></el-icon>
+        <template #title>更多设置</template>
+      </el-menu-item> -->
       <el-menu-item index="/quickReplies" @click.self="jump('quickReplies')">
         <el-icon style="margin-right: 30px"
           ><img src="../assets/image/快捷菜单.png" alt="" style="width: 30px; height: 30px"
@@ -76,6 +86,23 @@
 <script setup>
 import { ref, watch, reactive, onMounted } from 'vue'
 import { ArrowLeftBold, ArrowRightBold, User, SwitchButton } from '@element-plus/icons-vue'
+
+//图片地址
+// const setImg = ref(new URL('@assets/image/bg-setup.png', import.meta.url).href)
+// const shortcutMenuImg = ref(new URL('@assets/image/shortcutMenu.png', import.meta.url).href)
+
+const functionMenu = reactive([
+  {
+    name: '快捷回复',
+    index: 'quickReplies',
+    imgUrl: new URL('@assets/PlatformsImage/shortcutMenu.png', import.meta.url).href
+  },
+  {
+    name: '更多设置',
+    index: 'setting',
+    imgUrl: new URL('@assets/PlatformsImage/bg-setup.png', import.meta.url).href
+  }
+])
 
 //引入菜单列表状态管理库
 import { usePlatformStore } from '@store'

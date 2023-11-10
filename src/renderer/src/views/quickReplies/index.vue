@@ -24,46 +24,45 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
 
 //引入公共组件
 import Public from './compontent/index.vue'
 
 const activeName = ref('Zalo')
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
+const handleClick = (tab, event) => {
   console.log(tab, event)
 }
 const meunItem = reactive([
   {
     name: 'Zalo',
-    imgUrl: '/src/assets/PlatformsImage/Zalo.png'
+    imgUrl: new URL('@assets/PlatformsImage/Zalo.png', import.meta.url).href
   },
   {
     name: 'Whatsapp',
-    imgUrl: '/src/assets/PlatformsImage/Whatsapp.png'
+    imgUrl: new URL('@assets/PlatformsImage/Whatsapp.png', import.meta.url).href
   },
   {
     name: 'Telegram',
-    imgUrl: '/src/assets/PlatformsImage/Telegram.png'
+    imgUrl: new URL('@assets/PlatformsImage/Telegram.png', import.meta.url).href
   },
   {
     name: 'Skype',
-    imgUrl: '/src/assets/PlatformsImage/Skype.png'
+    imgUrl: new URL('@assets/PlatformsImage/Skype.png', import.meta.url).href
   },
   {
     name: 'Meta',
-    imgUrl: '/src/assets/PlatformsImage/Meta.png'
+    imgUrl: new URL('@assets/PlatformsImage/Meta.png', import.meta.url).href
   },
   {
     name: 'Messenger',
-    imgUrl: '/src/assets/PlatformsImage/Messenger.png'
+    imgUrl: new URL('@assets/PlatformsImage/Messenger.png', import.meta.url).href
   },
   {
     name: 'Line',
-    imgUrl: '/src/assets/PlatformsImage/Line.png'
+    imgUrl: new URL('@assets/PlatformsImage/Line.png', import.meta.url).href
   }
 ])
 </script>

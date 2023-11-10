@@ -42,10 +42,7 @@ export const routes = [
         path: '/Line',
         component: () => import('@views/asideFrom/Line.vue')
       },
-      {
-        path: '/user2',
-        component: () => import('@views/user/user2.vue')
-      },
+
       {
         path: '/user',
         component: () => import('@views/user/user.vue')

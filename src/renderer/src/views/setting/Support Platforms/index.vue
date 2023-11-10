@@ -28,37 +28,37 @@ import { ref, reactive, onMounted, onActivated, watch, nextTick, watchEffect } f
 const platFrom = reactive([
   {
     name: 'Zalo',
-    imgUrl: '/src/assets/PlatformsImage/Zalo.png',
+    imgUrl: new URL('@assets/PlatformsImage/Zalo.png', import.meta.url).href,
     checked: false
   },
   {
     name: 'Whatsapp',
-    imgUrl: '/src/assets/PlatformsImage/Whatsapp.png',
+    imgUrl: new URL('@assets/PlatformsImage/Whatsapp.png', import.meta.url).href,
     checked: false
   },
   {
     name: 'Telegram',
-    imgUrl: '/src/assets/PlatformsImage/Telegram.png',
+    imgUrl: new URL('@assets/PlatformsImage/Telegram.png', import.meta.url).href,
     checked: false
   },
   {
     name: 'Skype',
-    imgUrl: '/src/assets/PlatformsImage/Skype.png',
+    imgUrl: new URL('@assets/PlatformsImage/Skype.png', import.meta.url).href,
     checked: false
   },
   {
     name: 'Meta',
-    imgUrl: '/src/assets/PlatformsImage/Meta.png',
+    imgUrl: new URL('@assets/PlatformsImage/Meta.png', import.meta.url).href,
     checked: false
   },
   {
     name: 'Messenger',
-    imgUrl: '/src/assets/PlatformsImage/Messenger.png',
+    imgUrl: new URL('@assets/PlatformsImage/Messenger.png', import.meta.url).href,
     checked: false
   },
   {
     name: 'Line',
-    imgUrl: '/src/assets/PlatformsImage/Line.png',
+    imgUrl: new URL('@assets/PlatformsImage/Line.png', import.meta.url).href,
     checked: false
   }
 ])

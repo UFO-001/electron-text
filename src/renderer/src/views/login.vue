@@ -2,7 +2,7 @@
   <div class="main">
     <div class="m-left">
       <div class="body">
-        <img class="b-top" src="@assets/image/left.png" alt="" />
+        <img class="b-top" src="@assets/image/left.jpg" alt="" />
         <div class="b-centre">
           <div class="font">邀请码</div>
           <el-input style="width: 40vw" placeholder="请输入邀请码" :prefix-icon="Key" />
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="m-right">
-      <img src="@assets/image/right.png" alt="" class="img" />
+      <img src="@assets/image/right.jpg" alt="" class="img" />
     </div>
   </div>
 </template>

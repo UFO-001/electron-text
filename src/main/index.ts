@@ -106,43 +106,24 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.handle('open-file-dialog', () => {
-  const win = new BrowserWindow({
-    width: 1100,
-    height: 750,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      allowRunningInsecureContent: true,
-      nodeIntegrationInWorker: true,
-      nodeIntegrationInSubFrames: true,
-      plugins: true
-    }
-  })
+// ipcMain.handle('open-file-dialog', () => {
+//   const win = new BrowserWindow({
+//     width: 1100,
+//     height: 750,
+//     webPreferences: {
+//       nodeIntegration: true,
+//       contextIsolation: false,
+//       allowRunningInsecureContent: true,
+//       nodeIntegrationInWorker: true,
+//       nodeIntegrationInSubFrames: true,
+//       plugins: true
+//     }
+//   })
 
-  // if (session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc')) {
-  //   // win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
-  //   console.log('ppppppp')
-  //   // win.loadFile(join(app.getPath('desktop'), '/3.1.2_0/index.html'))
-  //   win.loadURL('chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html')
-
-  //   console.log(session.defaultSession.getExtension('ophjlpahpchlmihnnnihgmmeilfjmjjc'), 'lllll')
-  // }
-  // win.webContents.session.setProxy({
-  //   proxyRules: 'http=foopy:80',
-  //   proxyBypassRules: 'localhost, 127.0.0.1'
-  // }))
-
-  // win.loadURL('https://www.google.com')
-
-  // win.loadURL(' https://yiyan.baidu.com/')
-  // win.loadURL('http://localhost:3000/' + join(app.getPath('desktop'), '/3.1.2_0/index.html'))
-  // console.log(session.defaultSession.extension.getURL, 'dfffd')
-
-  win.webContents.session.loadExtension(join(app.getPath('desktop'), '/10.2.0.9952_0'))
-  win.webContents.session.on('extension-ready', (e, ex) => {
-    // console.log(ex.path, ex.url, 'lllllllllllllllllllllllllllllllllllllllll')
-    win.loadURL(ex.url + 'browserActionPopup.html')
-  })
-  // win.loadURL('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/browserActionPopup.html')
-})
+//   win.webContents.session.loadExtension(join(app.getPath('desktop'), '/10.2.0.9952_0'))
+//   win.webContents.session.on('extension-ready', (e, ex) => {
+//     // console.log(ex.path, ex.url, 'lllllllllllllllllllllllllllllllllllllllll')
+//     win.loadURL(ex.url + 'browserActionPopup.html')
+//   })
+//   // win.loadURL('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/browserActionPopup.html')
+// })

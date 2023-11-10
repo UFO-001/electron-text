@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: electron-app
+productName: 测试版app
 directories:
   buildResources: build
 files:
@@ -18,6 +18,9 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
