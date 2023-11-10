@@ -1,6 +1,9 @@
-<!-- eslint-disable vue/no-unused-vars -->
 <template>
-  <el-table :data="tableData" style="width: 100%; height: 90vh">
+  <el-table
+    :data="tableData"
+    style="width: 100%; height: 90vh"
+    header-cell-class-name="headerClass"
+  >
     <el-table-column label="序号" width="70">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -88,6 +91,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 
+// const headerClass=()
 //启动，关闭事件
 const handleEdit = (index, row) => {
   const routePath = route.path.slice(1)
@@ -104,6 +108,8 @@ const handleEdit = (index, row) => {
 
   console.log(index, row, routePath)
 }
+
+//删除事件
 const handleDelete = (index, row) => {
   if (!tableData[index].initiate) {
     //删除按钮
@@ -151,7 +157,7 @@ const tableData = reactive([
   &:hover {
     .el-icon {
       visibility: visible;
-      color: rgb(127, 231, 135);
+      color: rgb(19, 188, 255);
       cursor: pointer;
     }
   }
@@ -159,6 +165,11 @@ const tableData = reactive([
     visibility: hidden;
     margin-right: 0;
   }
+}
+
+:deep(.headerClass) {
+  background-color: rgb(236, 236, 236) !important;
+  color: rgb(42, 42, 43);
 }
 
 .active {

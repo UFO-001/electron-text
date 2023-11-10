@@ -13,7 +13,7 @@
         <template #title>
           <div @click="jump(item.name)">
             <el-icon style="margin-right: 30px"
-              ><img :src="item.imgUrl" alt="" style="width: 30px; height: 30px"
+              ><img :src="item.imgUrl" alt="" style="width: 40px; height: 40px"
             /></el-icon>
 
             {{ item.name }}
@@ -32,7 +32,7 @@
         @click.self="jump(item.name)"
       >
         <el-icon style="margin-right: 30px"
-          ><img :src="item.imgUrl" alt="" style="width: 30px; height: 30px"
+          ><img :src="item.imgUrl" alt="" style="width: 40px; height: 40px"
         /></el-icon>
         <template #title>{{ item.name }}</template>
       </el-menu-item>
@@ -41,13 +41,13 @@
 
       <el-menu-item index="/quickReplies" @click.self="jump('quickReplies')">
         <el-icon style="margin-right: 30px"
-          ><img src="../assets/image/快捷菜单.png" alt="" style="width: 30px; height: 30px"
+          ><img src="../assets/image/快捷菜单.png" alt="" style="width: 40px; height: 40px"
         /></el-icon>
         <template #title>快捷回复</template>
       </el-menu-item>
       <el-menu-item index="/setting" @click.self="jump('setting')">
         <el-icon style="margin-right: 30px"
-          ><img src="../assets/image/bg-setup.png" alt="" style="width: 30px; height: 30px"
+          ><img src="../assets/image/bg-setup.png" alt="" style="width: 40px; height: 40px"
         /></el-icon>
         <template #title>更多设置</template>
       </el-menu-item>

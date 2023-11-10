@@ -9,7 +9,7 @@
           <el-icon><Share /></el-icon> 分享链接
         </a>
         <span class="create">
-          <el-icon><CirclePlus /></el-icon> 新增 {{ plat }} Business
+          <el-icon><CirclePlus /></el-icon> 新增 {{ plat }}
         </span>
       </div>
       <div class="h-right">
@@ -36,7 +36,7 @@ const route = useRoute()
 const plat = ref('')
 onMounted(() => {
   plat.value = route.path.split('/')[1]
-  console.log(route.path, 'paaaaaaaa')
+  // console.log(route.path, 'paaaaaaaa')
 })
 </script>
 
@@ -54,7 +54,7 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     .h-left {
       display: flex;
       justify-content: flex-start;
@@ -84,6 +84,8 @@ onMounted(() => {
         margin-right: 20px;
       }
       .create {
+        color: #409eff;
+        font-size: 14px;
         cursor: pointer;
       }
     }
