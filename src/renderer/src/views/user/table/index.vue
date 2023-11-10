@@ -58,9 +58,21 @@
 
     <el-table-column label="操作" min-width="130">
       <template #default="scope">
-        <el-button round size="small" @click="handleEdit(scope.$index, scope.row)">启动</el-button>
-        <el-button round size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"
-          >删除</el-button
+        <el-button
+          type="primary"
+          round
+          size="small"
+          :class="{ active: scope.row.initiate }"
+          @click="handleEdit(scope.$index, scope.row)"
+          >{{ scope.row.initiate ? '显示' : '启动' }}</el-button
+        >
+        <el-button
+          round
+          size="small"
+          type="danger"
+          :class="{ delete: scope.row.initiate }"
+          @click="handleDelete(scope.$index, scope.row)"
+          >{{ scope.row.initiate ? '关闭' : '删除' }}</el-button
         >
       </template>
     </el-table-column>
@@ -72,20 +84,35 @@ import { Timer, EditPen, Check } from '@element-plus/icons-vue'
 import { usePlatformStore } from '@store'
 import { reactive, ref } from 'vue'
 const platformStore = usePlatformStore()
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 
 //启动，关闭事件
 const handleEdit = (index, row) => {
   const routePath = route.path.slice(1)
-  platformStore.editPlatformList(routePath, row.name)
+
   // console.log(routePath, row.name, 'llllll')
+  //启动按钮变化
+  if (!tableData[index].initiate) {
+    //启动按钮
+    platformStore.editPlatformList(routePath, row.name)
+    tableData[index].initiate = !tableData[index].initiate
+  } else {
+    //显示按钮
+  }
 
   console.log(index, row, routePath)
 }
 const handleDelete = (index, row) => {
-  console.log(index, row)
+  if (!tableData[index].initiate) {
+    //删除按钮
+    tableData.splice(index, 1)
+  } else {
+    // 关闭按钮
+    platformStore.delePlatformList(route.path.slice(1), row.name)
+    tableData[index].initiate = !tableData[index].initiate
+  }
 }
 
 //备注事件
@@ -104,7 +131,17 @@ const tableData = reactive([
     conversation: 'No. 189, Grove St, Los Angeles',
     username: 'ddd',
     modifyTime: '11-07 11.08',
-    remark: '22'
+    remark: '22',
+    initiate: false
+  },
+  {
+    serialNumber: '1',
+    time: '11-07 11.08',
+    conversation: 'No. 189, Grove St, Los Angeles',
+    username: 'ddd',
+    modifyTime: '11-07 11.08',
+    remark: '22',
+    initiate: false
   }
 ])
 </script>
@@ -122,5 +159,16 @@ const tableData = reactive([
     visibility: hidden;
     margin-right: 0;
   }
+}
+
+.active {
+  background-color: rgba(18, 231, 36, 0.966);
+  color: white;
+  border: 0;
+}
+.delete {
+  background-color: rgba(224, 224, 3, 0.856);
+  color: white;
+  border: 0;
 }
 </style>

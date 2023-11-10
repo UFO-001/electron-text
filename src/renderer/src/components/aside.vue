@@ -38,16 +38,7 @@
       </el-menu-item>
 
       <el-divider />
-      <!-- <el-menu-item v-for="item in functionMenu" :key="item.name" @click.self="jump(item.index)">
-        <img :src="item.imgUrl" alt="" style="width: 30px; height: 30px; margin-right: 30px" />
-        <template #title>{{ item.name }}</template>
-      </el-menu-item> -->
-      <!-- <el-menu-item index="/setting" @click.self="jump('setting')">
-        <el-icon style="margin-right: 30px"
-          ><img :src="setImg" alt="" style="width: 30px; height: 30px"
-        /></el-icon>
-        <template #title>更多设置</template>
-      </el-menu-item> -->
+
       <el-menu-item index="/quickReplies" @click.self="jump('quickReplies')">
         <el-icon style="margin-right: 30px"
           ><img src="../assets/image/快捷菜单.png" alt="" style="width: 30px; height: 30px"
@@ -69,7 +60,12 @@
       enter-active-class="animate__animated animate__fadeInLeft"
       leave-active-class="animate__animated animate__fadeOutLeft"
     >
-      <div v-show="!isCollapse" class="card">
+      <div
+        v-show="!isCollapse"
+        class="card"
+        @mouseenter="enterChange($event)"
+        @mouseleave="leaveChange($event)"
+      >
         <div class="content">
           <el-icon><User /></el-icon>
           <div class="font">
@@ -87,22 +83,14 @@
 import { ref, watch, reactive, onMounted } from 'vue'
 import { ArrowLeftBold, ArrowRightBold, User, SwitchButton } from '@element-plus/icons-vue'
 
-//图片地址
-// const setImg = ref(new URL('@assets/image/bg-setup.png', import.meta.url).href)
-// const shortcutMenuImg = ref(new URL('@assets/image/shortcutMenu.png', import.meta.url).href)
+//鼠标移入用户动画事件
+const enterChange = (e) => {
+  e.currentTarget.className = 'card animate__animated animate__swing animate__faster'
+}
 
-const functionMenu = reactive([
-  {
-    name: '快捷回复',
-    index: 'quickReplies',
-    imgUrl: new URL('@assets/PlatformsImage/shortcutMenu.png', import.meta.url).href
-  },
-  {
-    name: '更多设置',
-    index: 'setting',
-    imgUrl: new URL('@assets/PlatformsImage/bg-setup.png', import.meta.url).href
-  }
-])
+const leaveChange = (e) => {
+  e.currentTarget.className = 'card'
+}
 
 //引入菜单列表状态管理库
 import { usePlatformStore } from '@store'
@@ -195,9 +183,10 @@ const jump = (item) => {
     bottom: 50px;
     left: 25px;
     padding: 0;
-    background-color: rgba(141, 228, 101, 0.849);
+    background-color: rgba(73, 216, 241, 0.849);
     border-radius: 10px;
     cursor: pointer;
+
     .content {
       margin: 10px;
       display: flex;
@@ -231,6 +220,9 @@ const jump = (item) => {
   }
 }
 
+.bbb {
+  background-color: #d30808 !important;
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;

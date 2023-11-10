@@ -9,13 +9,7 @@
     <el-divider style="margin: 0; padding: 0"></el-divider>
   </div>
 
-  <el-drawer
-    v-model="drawer"
-    title="I am the title"
-    direction="rtl"
-    :before-close="handleClose"
-    custom-class="cus"
-  >
+  <el-drawer v-model="drawer" title="I am the title" direction="rtl" custom-class="cus">
     <span>Hi, there!</span>
   </el-drawer>
   <el-drawer v-model="drawer2" :direction="direction">
@@ -45,15 +39,7 @@ const drawer = ref(false)
 const drawer2 = ref(false)
 const direction = ref('rtl')
 const radio1 = ref('Option 1')
-const handleClose = (done: () => void) => {
-  ElMessageBox.confirm('Are you sure you want to close this?')
-    .then(() => {
-      done()
-    })
-    .catch(() => {
-      // catch error
-    })
-}
+
 function cancelClick() {
   drawer2.value = false
 }

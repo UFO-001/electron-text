@@ -1,7 +1,12 @@
 <template>
   <div class="platFrom">
     <ul>
-      <li v-for="(item, index) in platFrom" :key="index">
+      <li
+        v-for="(item, index) in platFrom"
+        :key="index"
+        @mouseenter="enterChange($event)"
+        @mouseleave="leaveChange($event)"
+      >
         <div class="PF1">
           <input
             :id="item.name"
@@ -23,6 +28,14 @@
 
 <script setup>
 import { ref, reactive, onMounted, onActivated, watch, nextTick, watchEffect } from 'vue'
+
+const enterChange = (e) => {
+  e.currentTarget.className = 'animate__animated animate__pulse animate__faster'
+}
+
+const leaveChange = (e) => {
+  e.currentTarget.className = ''
+}
 
 //平台列表
 const platFrom = reactive([
@@ -113,6 +126,10 @@ const numberOfProcessing = (name, boolean, imgUrl) => {
 </script>
 
 <style scoped lang="scss">
+.aaa {
+  background-color: #ee0a0a !important;
+}
+
 .platFrom {
   padding: 10px;
   ul {

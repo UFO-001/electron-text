@@ -9,7 +9,7 @@
           <el-icon><Share /></el-icon> 分享链接
         </a>
         <span class="create">
-          <el-icon><CirclePlus /></el-icon> 新增 Meta Business
+          <el-icon><CirclePlus /></el-icon> 新增 {{ plat }} Business
         </span>
       </div>
       <div class="h-right">
@@ -30,6 +30,14 @@
 import { Share, CirclePlus, Lock } from '@element-plus/icons-vue'
 
 import Table from './table/index.vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const plat = ref('')
+onMounted(() => {
+  plat.value = route.path.split('/')[1]
+  console.log(route.path, 'paaaaaaaa')
+})
 </script>
 
 <style scoped lang="scss">
