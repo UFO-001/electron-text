@@ -15,12 +15,11 @@ export const usePlatformStore = defineStore('platform', {
     },
     //增加子侧边栏
     editPlatformList(key, userName) {
-      // console.log(key, userName, 'dddddd')
+      // console.log(userName, 'dddddd')
       this.platFromlists.forEach((item) => {
         if (item.name == key) {
           item.children.push(userName)
         }
-        // console.log(item.name, 'item.name')
       })
       // console.log(this.platFromlists, 'aaaaaaa')
     },

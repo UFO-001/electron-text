@@ -43,4 +43,18 @@ routers.push(
   })
 )
 
+/**
+ *  窗口置顶
+ */
+routers.push(
+  new EventRoute('top-window', 'event', (api, data = {}) => {
+    if (api.window.isAlwaysOnTop()) {
+      api.window.setAlwaysOnTop(false)
+    } else {
+      api.window.setAlwaysOnTop(true)
+    }
+    // console.log(api.window.isAlwaysOnTop(), ' top-window')
+  })
+)
+
 export default routers

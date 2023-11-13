@@ -85,11 +85,24 @@
 <script setup>
 import { Timer, EditPen, Check } from '@element-plus/icons-vue'
 import { usePlatformStore } from '@store'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 const platformStore = usePlatformStore()
 import { useRoute, useRouter } from 'vue-router'
-
+const router = useRouter()
 const route = useRoute()
+
+//页面启动
+onMounted(() => {
+  platformStore.platFromlists.forEach((item) => {
+    if (item.children.length !== 0) {
+      tableData.forEach((item1) => {
+        item.children.indexOf(item1.username) !== -1
+          ? (item1.initiate = true)
+          : (item1.initiate = false)
+      })
+    }
+  })
+})
 
 // const headerClass=()
 //启动，关闭事件
@@ -100,10 +113,18 @@ const handleEdit = (index, row) => {
   //启动按钮变化
   if (!tableData[index].initiate) {
     //启动按钮
-    platformStore.editPlatformList(routePath, row.name)
+    platformStore.editPlatformList(routePath, row.username)
     tableData[index].initiate = !tableData[index].initiate
+    router.addRoute('Home', {
+      path: '/' + row.username,
+      name: row.username,
+      component: () => import('@views/user/user.vue')
+    })
+    router.push('/' + row.username)
+    // console.log(router.hasRoute(row.username), 'router.hasRoute')
   } else {
     //显示按钮
+    router.push('/' + row.username)
   }
 
   console.log(index, row, routePath)
@@ -116,7 +137,9 @@ const handleDelete = (index, row) => {
     tableData.splice(index, 1)
   } else {
     // 关闭按钮
-    platformStore.delePlatformList(route.path.slice(1), row.name)
+    router.removeRoute(row.username)
+    // console.log(router.hasRoute(row.username), 'router.hasRoute(row.username)')
+    platformStore.delePlatformList(route.path.slice(1), row.username)
     tableData[index].initiate = !tableData[index].initiate
   }
 }
@@ -144,7 +167,7 @@ const tableData = reactive([
     serialNumber: '1',
     time: '11-07 11.08',
     conversation: 'No. 189, Grove St, Los Angeles',
-    username: 'ddd',
+    username: 'fff',
     modifyTime: '11-07 11.08',
     remark: '22',
     initiate: false

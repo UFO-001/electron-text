@@ -20,8 +20,11 @@
           </div>
         </template>
 
-        <el-menu-item v-for="childrenItem in item.children" :key="childrenItem" index="/user"
-          >item one</el-menu-item
+        <el-menu-item
+          v-for="childrenItem in item.children"
+          :key="childrenItem"
+          :index="`/${childrenItem}`"
+          >{{ childrenItem }}</el-menu-item
         >
       </el-sub-menu>
 
@@ -104,6 +107,7 @@ const isCollapse = ref(true)
 
 //退出
 const switchButton = () => {
+  localStorage.removeItem('token')
   router.push('/login')
   // console.log('out')
 }

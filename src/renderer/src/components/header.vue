@@ -6,32 +6,74 @@
     @mouseup="mouseUp"
     @mouseleave="mouseleave"
   >
-    <div class="minus" @click="minusEvent">
-      <el-icon style="width: 5vh; height: 4vh"><Minus /></el-icon>
-    </div>
-    <div class="fullScreen" @click="fullScreenEvent">
-      <el-icon style="width: 5vh; height: 4vh"><FullScreen /></el-icon>
-    </div>
-    <div class="closeBold" @click="closeBoldEvent">
-      <el-icon style="width: 5vh; height: 4vh; color: #666"><CloseBold /></el-icon>
-    </div>
+    <el-tooltip content="帮助文档" placement="bottom">
+      <div class="minus" @click="help">
+        <el-icon style="width: 5vh; height: 4vh; color: #666">
+          <QuestionFilled />
+        </el-icon>
+      </div>
+    </el-tooltip>
+
+    <el-tooltip content="置顶" placement="bottom">
+      <div class="minus" @click="top">
+        <el-icon style="width: 5vh; height: 4vh">
+          <img style="width: 2.5vh; height: 2.5vh" src="@assets/image/置顶.png" alt="" />
+        </el-icon>
+      </div>
+    </el-tooltip>
+
+    <el-tooltip content="最小化" placement="bottom">
+      <div class="minus" @click="minusEvent">
+        <el-icon style="width: 5vh; height: 4vh"><Minus /></el-icon>
+      </div>
+    </el-tooltip>
+
+    <el-tooltip content="最大化" placement="bottom">
+      <div class="fullScreen" @click="fullScreenEvent">
+        <el-icon style="width: 5vh; height: 4vh"><FullScreen /></el-icon>
+      </div>
+    </el-tooltip>
+
+    <el-tooltip content="关闭" placement="bottom-start">
+      <div class="closeBold" @click="closeBoldEvent">
+        <el-icon style="width: 5vh; height: 4vh; color: #666"><CloseBold /></el-icon></div
+    ></el-tooltip>
   </div>
 </template>
 
 <script setup>
-import { Minus, FullScreen, CloseBold } from '@element-plus/icons-vue'
+import { Minus, FullScreen, CloseBold, QuestionFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
 const isDown = ref(false) // 鼠标状态
 const baseX = ref(0),
   baseY = ref(0) //监听坐标
 
+const isTop = ref(false)
+
+//帮助文档
+const help = () => {
+  window.open('https://haixiang.app/#/help')
+}
+
+//置顶
+const top = (e) => {
+  window.electron.ipcRenderer.invoke('renderer-to-main', {
+    name: 'top-window',
+    event: 'event',
+    data: 'null'
+  })
+  isTop.value = !isTop.value
+
+  isTop.value ? (e.currentTarget.className = 'toTop') : (e.currentTarget.className = '')
+}
+
 //窗口移动
 const mouseDown = (e) => {
   isDown.value = true
   baseX.value = e.clientX
   baseY.value = e.clientY
-  console.log(baseX, baseY, 'aaaaaa')
+  // console.log(baseX, baseY, 'aaaaaa')
 }
 
 const mouseMove = (e) => {
@@ -43,7 +85,7 @@ const mouseMove = (e) => {
       posX: x,
       posY: y
     })
-    console.log(x, y, 'dddddd')
+    // console.log(x, y, 'dddddd')
   }
 }
 
@@ -101,5 +143,8 @@ const closeBoldEvent = () => {
       // box-shadow: 0 0 10px rgba(223, 220, 220, 0.5);
     }
   }
+}
+.toTop {
+  transform: rotate(45deg);
 }
 </style>

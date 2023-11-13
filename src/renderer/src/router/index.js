@@ -8,4 +8,10 @@ const router = createRouter({
   routes: routes
 })
 
+//引入导航守卫
+import { beforeEach, afterEach } from '@router/guards.js'
+
+router.beforeEach(beforeEach)
+router.afterEach(afterEach)
+
 export default router
