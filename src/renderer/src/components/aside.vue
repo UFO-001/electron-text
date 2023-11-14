@@ -103,7 +103,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const platformStore = usePlatformStore()
 
-const isCollapse = ref(true)
+const isCollapse = ref(false)
 
 //退出
 const switchButton = () => {
@@ -119,7 +119,7 @@ const handleSelect = (index) => {
 }
 
 //侧边栏收缩与展开
-const collapseIcon = ref(ArrowRightBold)
+const collapseIcon = ref(ArrowLeftBold)
 const meunBtn = () => {
   isCollapse.value = !isCollapse.value
   isCollapse.value ? (collapseIcon.value = ArrowRightBold) : (collapseIcon.value = ArrowLeftBold)

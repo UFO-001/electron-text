@@ -15,7 +15,7 @@
       <!-- 导入 -->
       <el-upload
         class="upload-demo"
-        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+        action=""
         multiple
         :on-preview="handlePreview"
         :on-remove="handleRemove"
@@ -39,9 +39,8 @@
 
     <!-- 添加分组的弹出框 -->
     <el-dialog v-model="dialogFormVisible" title="添加分组" align-center width="40%">
-      <el-form :model="form">
-        <el-input v-model="form.name" autocomplete="off" placeholder="请输入自定义的分组名" />
-      </el-form>
+      <el-input v-model="form" autocomplete="off" placeholder="请输入自定义的分组名" />
+
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -52,43 +51,28 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { reactive, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import { CirclePlus, FolderAdd, FolderRemove } from '@element-plus/icons-vue'
+
+//导入
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const dialogFormVisible = ref(false)
 
 const value = ref(false)
 
-const form = reactive({
-  name: ''
-})
+const form = ref('')
 
-//导入
-import { ElMessage, ElMessageBox } from 'element-plus'
-
-import type { UploadProps, UploadUserFile } from 'element-plus'
-
-const fileList = ref<UploadUserFile[]>([
-  {
-    name: 'element-plus-logo.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg'
-  },
-  {
-    name: 'element-plus-logo2.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg'
-  }
-])
-
-const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
+const handleRemove = (file, uploadFiles) => {
   console.log(file, uploadFiles)
 }
 
-const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
+const handlePreview = (uploadFile) => {
   console.log(uploadFile)
 }
 
-const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
+const handleExceed = (files, uploadFiles) => {
   ElMessage.warning(
     `The limit is 3, you selected ${files.length} files this time, add up to ${
       files.length + uploadFiles.length
@@ -96,7 +80,7 @@ const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   )
 }
 
-const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+const beforeRemove = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
     () => true,
     () => false
