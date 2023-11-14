@@ -1,12 +1,6 @@
 <template>
-  <div
-    class="header"
-    @mousedown="mouseDown"
-    @mousemove="mouseMove"
-    @mouseup="mouseUp"
-    @mouseleave="mouseleave"
-  >
-    <el-tooltip content="帮助文档" placement="bottom">
+  <div class="header" @mousedown="mouseDown" @mouseup="mouseUp" @mouseleave="mouseleave">
+    <el-tooltip content="帮助文档" placement="bottom" hide-after="0">
       <div class="minus" @click="help">
         <el-icon style="width: 5vh; height: 4vh; color: #666">
           <QuestionFilled />
@@ -14,7 +8,7 @@
       </div>
     </el-tooltip>
 
-    <el-tooltip content="置顶" placement="bottom">
+    <el-tooltip content="置顶" placement="bottom" hide-after="0">
       <div class="minus" @click="top">
         <el-icon style="width: 5vh; height: 4vh">
           <img style="width: 2.5vh; height: 2.5vh" src="@assets/image/置顶.png" alt="" />
@@ -22,19 +16,19 @@
       </div>
     </el-tooltip>
 
-    <el-tooltip content="最小化" placement="bottom">
+    <el-tooltip content="最小化" placement="bottom" hide-after="0">
       <div class="minus" @click="minusEvent">
         <el-icon style="width: 5vh; height: 4vh"><Minus /></el-icon>
       </div>
     </el-tooltip>
 
-    <el-tooltip content="最大化" placement="bottom">
+    <el-tooltip content="最大化" placement="bottom" hide-after="0">
       <div class="fullScreen" @click="fullScreenEvent">
         <el-icon style="width: 5vh; height: 4vh"><FullScreen /></el-icon>
       </div>
     </el-tooltip>
 
-    <el-tooltip content="关闭" placement="bottom-start">
+    <el-tooltip content="关闭" placement="bottom-start" hide-after="0">
       <div class="closeBold" @click="closeBoldEvent">
         <el-icon style="width: 5vh; height: 4vh; color: #666"><CloseBold /></el-icon></div
     ></el-tooltip>
@@ -73,19 +67,18 @@ const mouseDown = (e) => {
   isDown.value = true
   baseX.value = e.clientX
   baseY.value = e.clientY
-  // console.log(baseX, baseY, 'aaaaaa')
-}
+  console.log(baseX, baseY, 'aaaaaa')
+  document.onmousemove = function (e) {
+    if (isDown.value) {
+      const x = e.clientX - baseX.value
+      const y = e.clientY - baseY.value
 
-const mouseMove = (e) => {
-  if (isDown.value) {
-    const x = e.clientX - baseX.value
-    const y = e.clientY - baseY.value
-
-    window.electron.ipcRenderer.invoke('move-application', {
-      posX: x,
-      posY: y
-    })
-    // console.log(x, y, 'dddddd')
+      window.electron.ipcRenderer.invoke('move-application', {
+        posX: x,
+        posY: y
+      })
+      console.log(x, y, 'dddddd')
+    }
   }
 }
 
@@ -138,9 +131,6 @@ const closeBoldEvent = () => {
     &:hover {
       cursor: pointer;
       background-color: #c2bebe;
-      // border: 1px solid #a8a4a4;
-      // transform: scale(1.01);
-      // box-shadow: 0 0 10px rgba(223, 220, 220, 0.5);
     }
   }
 }

@@ -19,6 +19,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
   oneClick: false
+  perMachine: false
   allowToChangeInstallationDirectory: true
   deleteAppDataOnUninstall: true
   license: build/LICENSE.html

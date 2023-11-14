@@ -1,6 +1,9 @@
 <template>
   <div class="main">
-    <headerCompontent class="header"></headerCompontent>
+    <div class="kkk" @mousedown="mouseDown" @mouseup="mouseUp" @mouseleave="mouseleave">
+      <headerCompontent class="header"></headerCompontent>
+    </div>
+
     <div class="m-left">
       <div class="body">
         <img class="b-top" src="@assets/image/left.jpg" alt="" />
@@ -8,7 +11,7 @@
           <div class="font">邀请码</div>
           <el-input
             v-model="invitationCode"
-            style="width: 40vw"
+            input-style="width: 35vw;text-align: center;"
             placeholder="请输入邀请码"
             :prefix-icon="Key"
           />
@@ -24,7 +27,11 @@
             </div>
             <el-checkbox v-model="checked2" class="c-right" label="保持登录" size="small" />
           </div>
-          <el-button type="primary" size="large" round @click="btnLogin">登录</el-button>
+          <el-button size="large" @click="btnLogin">登录</el-button>
+        </div>
+        <div class="b-bottom">
+          <div>@ 2023 Haixiang All rights reserved</div>
+          <div>Terms of Service - Privacy Policy</div>
         </div>
       </div>
     </div>
@@ -58,6 +65,38 @@ const btnLogin = () => {
     router.push('/')
   }
 }
+
+//窗口移动
+const isDown = ref(false) // 鼠标状态
+const baseX = ref(0),
+  baseY = ref(0) //监听坐标
+
+const mouseDown = (e) => {
+  isDown.value = true
+  baseX.value = e.clientX
+  baseY.value = e.clientY
+  console.log(baseX, baseY, 'aaaaaa')
+  document.onmousemove = function (e) {
+    if (isDown.value) {
+      const x = e.clientX - baseX.value
+      const y = e.clientY - baseY.value
+
+      window.electron.ipcRenderer.invoke('move-application', {
+        posX: x,
+        posY: y
+      })
+      console.log(x, y, 'dddddd')
+    }
+  }
+}
+
+const mouseUp = () => {
+  isDown.value = false
+}
+
+const mouseleave = () => {
+  isDown.value = false
+}
 </script>
 
 <style scoped lang="scss">
@@ -67,11 +106,18 @@ const btnLogin = () => {
   display: flex;
   overflow: hidden;
   position: relative;
-  .header {
+  .kkk {
     position: absolute;
-    top: 0;
-    right: 0;
+    height: 6vh;
+    width: 100%;
+
+    .header {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
+
   .m-left {
     width: 50vw;
     height: 100%;
@@ -89,11 +135,11 @@ const btnLogin = () => {
 
         .font {
           margin-bottom: 5px;
-          color: red;
-          font-size: 14px;
+          color: #197a8b;
+          font-size: 12px;
         }
         .check {
-          margin-top: 5px;
+          margin-top: 10px;
           display: flex;
           justify-content: space-between;
           .c-left {
@@ -103,11 +149,29 @@ const btnLogin = () => {
             }
           }
         }
+        .el-input {
+          height: 6vh;
+        }
+      }
+
+      .b-bottom {
+        margin-top: 40px;
+        display: flex;
+        font-size: 10px;
+        color: #8f8f8f;
+        div {
+          &:nth-child(2) {
+            margin-left: 100px;
+          }
+        }
       }
       .el-button {
         margin-top: 10px;
         width: 100%;
-        height: 15%;
+        height: 6vh;
+        color: white;
+        background-color: #197a8b;
+        border-radius: 10px;
       }
     }
   }
