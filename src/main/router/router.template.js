@@ -37,7 +37,9 @@ routers.push(
   new EventRoute('max-window', 'event', (api, data = {}) => {
     if (api.window.isMaximized()) {
       api.window.unmaximize()
+      api.window.frame = false
     } else {
+      api.window.frame = true
       api.window.maximize()
     }
   })

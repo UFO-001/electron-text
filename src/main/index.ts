@@ -42,7 +42,7 @@ function createWindow(): void {
   eventRouter.addApi('app', app)
   eventRouter.addApi('dialog', dialog)
   eventRouter.addApi('window', mainWindow)
-  eventRouter.addApi('BrowserWindow', BrowserWindow)
+
   eventRouter.addRoutes(routers)
   //接收渲染进程的参数
   ipcMain.handle('renderer-to-main', (e, data) => {
