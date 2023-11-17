@@ -78,10 +78,36 @@ app.whenReady().then(() => {
   //系统托盘
   const tray = new Tray(join(__dirname, '../../icon.ico'))
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Item1', type: 'radio' },
-    { label: 'Item2', type: 'radio' },
-    { label: 'Item3', type: 'radio', checked: true },
-    { label: 'Item4', type: 'radio' }
+    {
+      label: '多用户',
+      submenu: [
+        {
+          label: '用户1'
+        },
+        {
+          label: '用户2'
+        }
+      ]
+    },
+    { label: '版本号3.3.5', enabled: false },
+    {
+      label: '帮助文档',
+      click: () => {
+        shell.openExternal('https://haixiang.app/#/help')
+      }
+    },
+    {
+      label: '开发者工具',
+
+      submenu: [
+        {
+          label: '移除代理设置',
+          type: 'normal'
+        }
+      ]
+    },
+    { type: 'separator' },
+    { label: '退出', type: 'normal', role: 'quit' }
   ])
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)
