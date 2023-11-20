@@ -8,7 +8,12 @@ const routers = new Array()
  */
 routers.push(
   new EventRoute('close-window', 'event', (api, data = {}) => {
-    api.app.quit()
+    if (api.window?.id == 2) {
+      api.contextMenu.getMenuItemById('user1').enabled = true
+    } else if (api.window?.id == 3) {
+      api.contextMenu.getMenuItemById('user2').enabled = true
+    }
+    api.window?.close()
   })
 )
 
@@ -17,7 +22,7 @@ routers.push(
  */
 routers.push(
   new EventRoute('open-window', 'event', (api, data = {}) => {
-    api.dialog.showOpenDialog()
+    api.dialog?.showOpenDialog()
     console.log(data, 'data')
   })
 )
@@ -26,7 +31,8 @@ routers.push(
  */
 routers.push(
   new EventRoute('min-window', 'event', (api, data = {}) => {
-    api.window.minimize()
+    api.window?.minimize()
+    // console.log('22222')
   })
 )
 
@@ -36,11 +42,11 @@ routers.push(
 routers.push(
   new EventRoute('max-window', 'event', (api, data = {}) => {
     if (api.window.isMaximized()) {
-      api.window.unmaximize()
+      api.window?.unmaximize()
       api.window.frame = false
     } else {
       api.window.frame = true
-      api.window.maximize()
+      api.window?.maximize()
     }
   })
 )

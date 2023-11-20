@@ -60,7 +60,7 @@ const btnLogin = () => {
     ElMessage.error('请确认阅读并同意《用户服务协议》')
   } else {
     if (checked2.value) {
-      localStorage.setItem('token', invitationCode.value)
+      sessionStorage.setItem('token', invitationCode.value)
     }
     router.push('/')
   }
@@ -75,17 +75,17 @@ const mouseDown = (e) => {
   isDown.value = true
   baseX.value = e.clientX
   baseY.value = e.clientY
-  console.log(baseX, baseY, 'aaaaaa')
+  // console.log(baseX, baseY, 'aaaaaa')
   document.onmousemove = function (e) {
     if (isDown.value) {
       const x = e.clientX - baseX.value
       const y = e.clientY - baseY.value
 
-      window.electron.ipcRenderer.invoke('move-application', {
+      window.electron.ipcRenderer.send('move-application', {
         posX: x,
         posY: y
       })
-      console.log(x, y, 'dddddd')
+      // console.log(x, y, 'dddddd')
     }
   }
 }

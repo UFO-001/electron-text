@@ -31,6 +31,7 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    // console.log(mainWindow.id, 'idididid')
   })
 
   // const view = new BrowserView()
@@ -38,23 +39,39 @@ function createWindow(): void {
   // mainWindow.setBrowserView(view)
   // view.webContents.loadURL('https://baidu.com')
   //封装过后的关闭窗口
+
   const eventRouter = new EventRouter()
   eventRouter.addApi('app', app)
   eventRouter.addApi('dialog', dialog)
-  eventRouter.addApi('window', mainWindow)
+  // eventRouter.addApi('window', mainWindow)
+  eventRouter.addApi('contextMenu', contextMenu)
 
   eventRouter.addRoutes(routers)
   //接收渲染进程的参数
-  ipcMain.handle('renderer-to-main', (e, data) => {
+  ipcMain.on('renderer-to-main', (e, data) => {
+    const win = BrowserWindow.fromId(mainWindow.id)
+    const win2 = BrowserWindow.getFocusedWindow()
+    if (win !== null && win == win2) {
+      eventRouter.addApi('window', win)
+
+      eventRouter.router(data)
+    }
     //data就是渲染进程传过来的参数
-    eventRouter.router(data)
   })
 
   // 拖拽事件
-  ipcMain.handle('move-application', (e, data) => {
-    const [x, y] = mainWindow.getPosition()
-    mainWindow.setPosition(x + data.posX, y + data.posY)
+  ipcMain.on('move-application', (e, data) => {
+    const win = BrowserWindow.fromId(mainWindow.id)
+    const win2 = BrowserWindow.getFocusedWindow()
+    // console.log(win == win2)
+    if (win !== null && win == win2) {
+      const [x, y] = mainWindow.getPosition()
+      win?.setPosition(x + data.posX, y + data.posY)
+    }
+
     // console.log(x, y, 'uuuuuu')
+
+    //data就是渲染进程传过来的参数
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -74,41 +91,10 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+
 app.whenReady().then(() => {
   //系统托盘
   const tray = new Tray(join(__dirname, '../../icon.ico'))
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: '多用户',
-      submenu: [
-        {
-          label: '用户1'
-        },
-        {
-          label: '用户2'
-        }
-      ]
-    },
-    { label: '版本号3.3.5', enabled: false },
-    {
-      label: '帮助文档',
-      click: () => {
-        shell.openExternal('https://haixiang.app/#/help')
-      }
-    },
-    {
-      label: '开发者工具',
-
-      submenu: [
-        {
-          label: '移除代理设置',
-          type: 'normal'
-        }
-      ]
-    },
-    { type: 'separator' },
-    { label: '退出', type: 'normal', role: 'quit' }
-  ])
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)
 
@@ -164,3 +150,49 @@ app.on('window-all-closed', () => {
 //   })
 //   // win.loadURL('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/browserActionPopup.html')
 // })
+
+//系统托盘菜单
+const contextMenu = Menu.buildFromTemplate([
+  {
+    label: '多用户',
+    submenu: [
+      {
+        label: '用户1',
+        id: 'user1',
+        click: () => {
+          createWindow()
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          contextMenu.getMenuItemById('user1')!.enabled = false
+        }
+      },
+      {
+        label: '用户2',
+        id: 'user2',
+        click: () => {
+          createWindow()
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          contextMenu.getMenuItemById('user2')!.enabled = false
+        }
+      }
+    ]
+  },
+  { label: '版本号3.3.5', enabled: false },
+  {
+    label: '帮助文档',
+    click: () => {
+      shell.openExternal('https://haixiang.app/#/help')
+    }
+  },
+  {
+    label: '开发者工具',
+
+    submenu: [
+      {
+        label: '移除代理设置',
+        type: 'normal'
+      }
+    ]
+  },
+  { type: 'separator' },
+  { label: '退出', type: 'normal', role: 'quit' }
+])

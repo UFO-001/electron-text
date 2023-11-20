@@ -52,7 +52,7 @@ const help = () => {
 
 //置顶
 const top = (e) => {
-  window.electron.ipcRenderer.invoke('renderer-to-main', {
+  window.electron.ipcRenderer.send('renderer-to-main', {
     name: 'top-window',
     event: 'event',
     data: 'null'
@@ -73,11 +73,11 @@ const mouseDown = (e) => {
       const x = e.clientX - baseX.value
       const y = e.clientY - baseY.value
 
-      window.electron.ipcRenderer.invoke('move-application', {
+      window.electron.ipcRenderer.send('move-application', {
         posX: x,
         posY: y
       })
-      console.log(x, y, 'dddddd')
+      // console.log(x, y, 'dddddd')
     }
   }
 }
@@ -92,7 +92,7 @@ const mouseleave = () => {
 
 //窗口最小化
 const minusEvent = () => {
-  window.electron.ipcRenderer.invoke('renderer-to-main', {
+  window.electron.ipcRenderer.send('renderer-to-main', {
     name: 'min-window',
     event: 'event',
     data: 'null'
@@ -101,7 +101,7 @@ const minusEvent = () => {
 
 //窗口最大化
 const fullScreenEvent = () => {
-  window.electron.ipcRenderer.invoke('renderer-to-main', {
+  window.electron.ipcRenderer.send('renderer-to-main', {
     name: 'max-window',
     event: 'event',
     data: 'null'
@@ -110,7 +110,7 @@ const fullScreenEvent = () => {
 
 //窗口关闭
 const closeBoldEvent = () => {
-  window.electron.ipcRenderer.invoke('renderer-to-main', {
+  window.electron.ipcRenderer.send('renderer-to-main', {
     name: 'close-window',
     event: 'event',
     data: 'null'

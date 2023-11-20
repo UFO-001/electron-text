@@ -107,7 +107,7 @@ const isCollapse = ref(false)
 
 //退出
 const switchButton = () => {
-  localStorage.removeItem('token')
+  sessionStorage.removeItem('token')
   router.push('/login')
   // console.log('out')
 }

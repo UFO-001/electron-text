@@ -4,7 +4,7 @@ export const beforeEach = (to) => {
   if (to.path === '/login') {
     return
   }
-  if (!localStorage.getItem('token')) {
+  if (!sessionStorage.getItem('token')) {
     return '/login'
   }
 }
