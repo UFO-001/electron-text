@@ -85,21 +85,26 @@
 <script setup>
 import { Timer, EditPen, Check } from '@element-plus/icons-vue'
 import { usePlatformStore } from '@store'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, inject } from 'vue'
 const platformStore = usePlatformStore()
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+const info = inject('Info')
+
+console.log(platformStore.platFromlists, 'aaaa')
 //页面启动
 onMounted(() => {
   platformStore.platFromlists.forEach((item) => {
-    if (item.children.length !== 0) {
-      tableData.forEach((item1) => {
-        item.children.indexOf(item1.username) !== -1
-          ? (item1.initiate = true)
-          : (item1.initiate = false)
-      })
+    if (item.name == info) {
+      if (item.children.length !== 0) {
+        tableData.forEach((item1) => {
+          item.children.indexOf(item1.username) !== -1
+            ? (item1.initiate = true)
+            : (item1.initiate = false)
+        })
+      }
     }
   })
 })
@@ -115,19 +120,56 @@ const handleEdit = (index, row) => {
     //启动按钮
     platformStore.editPlatformList(routePath, row.username)
     tableData[index].initiate = !tableData[index].initiate
-    router.addRoute('Home', {
-      path: '/' + row.username,
-      name: row.username,
-      component: () => import('@views/user/user.vue')
+
+    platformStore.platFromlists.forEach((item) => {
+      console.log(item.children, item.name, 'item.children')
+
+      if (item.children.length !== 0) {
+        item.children.forEach((items, index) => {
+          router.addRoute('Home', {
+            path: '/' + item.name + '/' + items,
+            name: item.name + '-' + items,
+            component: loadingComponent(item.name, index)
+          })
+        })
+      }
     })
-    router.push('/' + row.username)
+    // router.addRoute('Home', {
+    //   path: '/' + row.username,
+    //   name: row.username,
+    //   component: () => import('@views/user/user.vue')
+    // })
+    router.push('/' + info + '/' + row.username)
     // console.log(router.hasRoute(row.username), 'router.hasRoute')
   } else {
     //显示按钮
-    router.push('/' + row.username)
+    router.push('/' + info + '/' + row.username)
   }
 
   console.log(index, row, routePath)
+}
+
+//重构路由
+const modules = import.meta.glob('@renderer/views/platUser/**/*.vue')
+// console.log(modules['/src/views/platUser/Line/user1.vue'], 'vue文件路径')
+const loadingComponent = (name, index) => {
+  const routeName = name + '/' + index
+  let routes = null
+  Object.keys(modules).forEach((element) => {
+    const componentName = element.replace('/src/views/platUser/', '').replace('.vue', '')
+    if (componentName === routeName) {
+      console.log('888')
+      console.log(modules[element], '999')
+      routes = modules[element]
+    }
+
+    // console.log(componentName, 'componentName')
+    // console.log(routeName, 'routeName')
+    // if (element.indexOf(name) !== -1) {
+
+    // }
+  })
+  return routes
 }
 
 //删除事件

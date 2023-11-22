@@ -67,7 +67,7 @@ const mouseDown = (e) => {
   isDown.value = true
   baseX.value = e.clientX
   baseY.value = e.clientY
-  console.log(baseX, baseY, 'aaaaaa')
+  // console.log(baseX, baseY, 'aaaaaa')
   document.onmousemove = function (e) {
     if (isDown.value) {
       const x = e.clientX - baseX.value

@@ -19,6 +19,14 @@
 //引入侧边栏
 import Aside from '@components/aside.vue'
 import Header from '@components/header.vue'
+
+import { useRoute } from 'vue-router'
+// import { onActivated } from 'vue'
+// const route = useRoute()
+
+// onActivated(() => {
+//   console.log(route.path, 'routepath')
+// })
 </script>
 
 <style scoped lang="scss">

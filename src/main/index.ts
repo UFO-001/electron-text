@@ -16,6 +16,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     resizable: false,
     frame: false,
+
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -25,7 +26,8 @@ function createWindow(): void {
       contextIsolation: false,
       allowRunningInsecureContent: true,
       nodeIntegrationInWorker: true,
-      nodeIntegrationInSubFrames: true
+      nodeIntegrationInSubFrames: true,
+      webviewTag: true
     }
   })
 
@@ -48,15 +50,22 @@ function createWindow(): void {
 
   eventRouter.addRoutes(routers)
   //接收渲染进程的参数
+  let count = 0
   ipcMain.on('renderer-to-main', (e, data) => {
     const win = BrowserWindow.fromId(mainWindow.id)
     const win2 = BrowserWindow.getFocusedWindow()
-    if (win !== null && win == win2) {
+    if (win !== null && count === 0 && win == win2) {
+      // console.log(mainWindow.id, win !== null && count === 0 && win == win2, count, 'ssssss')
+      count = 1
       eventRouter.addApi('window', win)
 
       eventRouter.router(data)
+      setTimeout(() => {
+        count = 0
+      }, 1000)
     }
     //data就是渲染进程传过来的参数
+    // console.log(mainWindow.id, 'dddddd')
   })
 
   // 拖拽事件

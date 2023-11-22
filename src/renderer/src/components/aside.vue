@@ -23,7 +23,7 @@
         <el-menu-item
           v-for="childrenItem in item.children"
           :key="childrenItem"
-          :index="`/${childrenItem}`"
+          :index="`/${item.name}/${childrenItem}`"
           >{{ childrenItem }}</el-menu-item
         >
       </el-sub-menu>

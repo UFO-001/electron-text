@@ -45,10 +45,6 @@ export const routes = [
       },
 
       {
-        path: '/user',
-        component: () => import('@views/user/user.vue')
-      },
-      {
         path: '/quickReplies',
         component: () => import('@views/quickReplies/index.vue')
       }

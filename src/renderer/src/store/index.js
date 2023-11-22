@@ -39,5 +39,8 @@ export const usePlatformStore = defineStore('platform', {
       })
     }
   },
+  // persist: {
+  //   storage: window.sessionStorage
+  // }
   persist: true
 })

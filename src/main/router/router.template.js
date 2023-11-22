@@ -31,7 +31,7 @@ routers.push(
  */
 routers.push(
   new EventRoute('min-window', 'event', (api, data = {}) => {
-    api.window?.minimize()
+    api.window.minimize()
     // console.log('22222')
   })
 )

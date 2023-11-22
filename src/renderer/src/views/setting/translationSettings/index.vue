@@ -64,7 +64,7 @@ const { platFromlists } = storeToRefs(platformStore)
 const platSet = ref([])
 onMounted(() => {
   platSet.value = platFromlists.value
-  console.log(platSet.value, 'eeeeee')
+  // console.log(platSet.value, 'eeeeee')
 })
 
 const radio = ref(1)
