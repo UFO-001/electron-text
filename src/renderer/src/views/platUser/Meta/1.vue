@@ -9,7 +9,7 @@
       ref="foo"
       src="https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent&loginChannelId=1521958360&loginState=SB9kNqBk3QWdTClnoanfDK#/"
       style="display: inline-flex; width: 100%; height: 700px"
-      partition="persist:github1"
+      partition="persist:Meta1"
     ></webview>
   </div>
 </template>
@@ -47,6 +47,6 @@ onMounted(() => {
   height: 96%;
   width: 98%;
   overflow: hidden;
-  background-color: #b6b2b2;
+  background-color: #e0dbdb;
 }
 </style>

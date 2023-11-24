@@ -17,6 +17,6 @@
   height: 96%;
   width: 98%;
   overflow: hidden;
-  background-color: #b6b2b2;
+  background-color: #e6e2e2;
 }
 </style>

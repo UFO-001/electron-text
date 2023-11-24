@@ -4,7 +4,7 @@
       ref="foo"
       src="https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent&loginChannelId=1521958360&loginState=SB9kNqBk3QWdTClnoanfDK#/"
       style="display: inline-flex; width: 100%; height: 700px"
-      partition="persist:github0"
+      partition="persist:telegram0"
     ></webview>
   </div>
 </template>
