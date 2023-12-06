@@ -1,8 +1,9 @@
 import EventRoute from './EventRoute'
 import { screen, ipcMain } from 'electron'
 
-const routers = new Array()
+const routers = []
 
+import AppUpdater from '../AppUpdater'
 /**
  *  关闭窗口
  */
@@ -66,4 +67,10 @@ routers.push(
   })
 )
 
+//检查更新
+routers.push(
+  new EventRoute('update', 'event', (api, data = {}) => {
+    new AppUpdater(api.window)
+  })
+)
 export default routers

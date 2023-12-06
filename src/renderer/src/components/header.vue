@@ -8,6 +8,14 @@
       </div>
     </el-tooltip>
 
+    <el-tooltip content="检查更新" placement="bottom" :hide-after="0">
+      <div class="minus" @click="updateBtn">
+        <el-icon style="width: 5vh; height: 5vh; color: #666">
+          <QuestionFilled />
+        </el-icon>
+      </div>
+    </el-tooltip>
+
     <el-tooltip content="置顶" placement="bottom" :hide-after="0">
       <div class="minus" @click="top">
         <el-icon style="width: 5vh; height: 5vh">
@@ -44,6 +52,15 @@ const isTop = ref(false)
 const isMinus = ref(true)
 const moveEvent = () => {
   isMinus.value = true
+}
+
+//检查更新
+const updateBtn = () => {
+  window.electron.ipcRenderer.send('renderer-to-main', {
+    name: 'update',
+    event: 'event',
+    data: 'null'
+  })
 }
 
 //帮助文档

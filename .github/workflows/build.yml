@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019]
+        os: [windows-latest]
 
     # create steps
     steps:
@@ -39,7 +39,7 @@ jobs:
 
       # step4: build app for mac/win
       - name: build windows app
-        if: matrix.os == 'windows-2019'
+        if: matrix.os == 'windows-latest'
         run: |
           npm run build:win
         env:
@@ -47,7 +47,7 @@ jobs:
 
       # step5: cleanup artifacts in dist_electron
       - name: cleanup artifacts for windows
-        if: matrix.os == 'windows-2019'
+        if: matrix.os == 'windows-latest'
         run: |
           npx rimraf "dist/!(*.exe)"
 
@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}
-          path: dist_electron
+          path: dist
 
       # step7: create release
       - name: release
@@ -67,3 +67,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 # 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
+# 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
