@@ -41,7 +41,7 @@ jobs:
       - name: build windows app
         if: matrix.os == 'windows-2019'
         run: |
-          npm run build-win
+          npm run build:win
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
 
