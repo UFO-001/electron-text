@@ -15,18 +15,53 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 //引入侧边栏
 import Aside from '@components/aside.vue'
 import Header from '@components/header.vue'
 
-import { useRoute } from 'vue-router'
-// import { onActivated } from 'vue'
-// const route = useRoute()
+import { usePlatformStore } from '../store/index'
+import { useRouter } from 'vue-router'
 
-// onActivated(() => {
-//   console.log(route.path, 'routepath')
-// })
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  //引入store
+  const platformStore = usePlatformStore()
+  //引入router
+  const router = useRouter()
+  //对store数据处理
+  platformStore.platFromlists.forEach((item) => {
+    // console.log(item.children, item.name, 'item.children')
+
+    if (item.children.length !== 0) {
+      item.children.forEach((items, index) => {
+        router.addRoute('Home', {
+          path: '/' + item.name + '/' + items,
+          name: item.name + '-' + items,
+          component: loadingComponent(item.name, index)
+        })
+      })
+    }
+  })
+})
+
+//重构路由
+const modules = import.meta.glob('@renderer/views/platUser/**/*.vue')
+// console.log(modules['/src/views/platUser/Line/user1.vue'], 'vue文件路径')
+const loadingComponent = (name, index) => {
+  const routeName = name + '/' + index
+  let routes = null
+  Object.keys(modules).forEach((element) => {
+    const componentName = element.replace('/src/views/platUser/', '').replace('.vue', '')
+    if (componentName === routeName) {
+      // console.log('888')
+      // console.log(modules[element], '999')
+      routes = modules[element]
+    }
+  })
+  return routes
+}
 </script>
 
 <style scoped lang="scss">
@@ -44,6 +79,6 @@ import { useRoute } from 'vue-router'
   padding: 0px;
   margin: 0;
   border: 0;
-  height: 4vh;
+  height: 5vh;
 }
 </style>

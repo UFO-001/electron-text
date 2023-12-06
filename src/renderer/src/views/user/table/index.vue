@@ -85,17 +85,38 @@
 <script setup>
 import { Timer, EditPen, Check } from '@element-plus/icons-vue'
 import { usePlatformStore } from '@store'
-import { reactive, ref, onMounted, inject } from 'vue'
+import { reactive, ref, onMounted, inject, computed } from 'vue'
 const platformStore = usePlatformStore()
 import { useRoute, useRouter } from 'vue-router'
+
+const props = defineProps({
+  modelValue: Number
+})
+
+console.log('props', props)
+const emit = defineEmits(['update:modelValue'])
+
+const list = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value)
+    console.log('22222')
+  }
+})
+
+// <!-- 引入useRouter函数 -->
 const router = useRouter()
+// <!-- 引入useRoute函数 -->
 const route = useRoute()
 
+// <!-- 引入Info函数 -->
 const info = inject('Info')
 
 console.log(platformStore.platFromlists, 'aaaa')
 //页面启动
 onMounted(() => {
+  list.value = tableData.length
+
   platformStore.platFromlists.forEach((item) => {
     if (item.name == info) {
       if (item.children.length !== 0) {
@@ -177,6 +198,7 @@ const handleDelete = (index, row) => {
   if (!tableData[index].initiate) {
     //删除按钮
     tableData.splice(index, 1)
+    list.value = tableData.length
   } else {
     // 关闭按钮
     router.removeRoute(row.username)
@@ -201,6 +223,15 @@ const tableData = reactive([
     time: '11-07 11.08',
     conversation: 'No. 189, Grove St, Los Angeles',
     username: 'ddd',
+    modifyTime: '11-07 11.08',
+    remark: '22',
+    initiate: false
+  },
+  {
+    serialNumber: '1',
+    time: '11-07 11.08',
+    conversation: 'No. 189, Grove St, Los Angeles',
+    username: 'fff',
     modifyTime: '11-07 11.08',
     remark: '22',
     initiate: false

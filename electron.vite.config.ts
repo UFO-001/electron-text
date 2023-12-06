@@ -7,6 +7,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+const publicDir = resolve('resources')
+const envDir = resolve('build')
+
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin(), bytecodePlugin()]
@@ -15,6 +18,9 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin(), bytecodePlugin()]
   },
   renderer: {
+    publicDir,
+    envDir,
+    envPrefix: 'RENDERER_', //环境变量的前缀
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src'),
@@ -22,7 +28,10 @@ export default defineConfig({
         '@views': resolve('src/renderer/src/views'),
         '@assets': resolve('src/renderer/src/assets'),
         '@components': resolve('src/renderer/src/components'),
-        '@store': resolve('src/renderer/src/store')
+        '@store': resolve('src/renderer/src/store'),
+        '@utils': resolve('src/renderer/src/utils'),
+        '@api': resolve('src/renderer/src/api'),
+        '@config': resolve('src/renderer/src/config')
       }
     },
     plugins: [
@@ -33,6 +42,15 @@ export default defineConfig({
       Components({
         resolvers: [ElementPlusResolver()]
       })
-    ]
+    ],
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://uat.crm.xuexiluxian.cn',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
+    }
   }
 })

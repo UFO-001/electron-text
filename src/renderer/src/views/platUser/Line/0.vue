@@ -36,28 +36,6 @@ onMounted(() => {
 
       `)
       foo.value.addEventListener('did-navigate-in-page', (e) => {
-        //   if (
-        //     e.url ==
-        //     'https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent&loginChannelId=1521958360&loginState=SB9kNqBk3QWdTClnoanfDK#/'
-        //   ) {
-        //     foo.value.addEventListener('dom-ready', () => {
-        //       foo.value.executeJavaScript(`
-        //   const inp = document.getElementsByName('tid')
-
-        //    function inpTn() {
-        //     console.log(inp[0].value, 'inp')
-        //   }
-        //   inp[0].addEventListener('input', inpTn)
-
-        // `)
-        //     })
-        //     console.log(e, 'did-navigate-in-page')
-        //   } else {
-        //     foo.value.executeJavaScript(`
-        //     inp[0].removeEventListener('input', inpTn)
-        //     console.log( inp[0],'removeinp')
-        //     `)
-        //   }
         foo.value.executeJavaScript(`
         // const inp = document.getElementsByName('tid')
 

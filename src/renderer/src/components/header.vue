@@ -1,37 +1,32 @@
 <template>
   <div class="header" @mousedown="mouseDown" @mouseup="mouseUp" @mouseleave="mouseleave">
-    <el-tooltip content="帮助文档" placement="bottom" hide-after="0">
+    <el-tooltip content="帮助文档" placement="bottom" :hide-after="0">
       <div class="minus" @click="help">
-        <el-icon style="width: 5vh; height: 4vh; color: #666">
+        <el-icon style="width: 5vh; height: 5vh; color: #666">
           <QuestionFilled />
         </el-icon>
       </div>
     </el-tooltip>
 
-    <el-tooltip content="置顶" placement="bottom" hide-after="0">
+    <el-tooltip content="置顶" placement="bottom" :hide-after="0">
       <div class="minus" @click="top">
-        <el-icon style="width: 5vh; height: 4vh">
+        <el-icon style="width: 5vh; height: 5vh">
           <img style="width: 2.5vh; height: 2.5vh" src="@assets/image/置顶.png" alt="" />
         </el-icon>
       </div>
     </el-tooltip>
 
-    <el-tooltip content="最小化" placement="bottom" hide-after="0">
-      <div class="minus" @click="minusEvent">
-        <el-icon style="width: 5vh; height: 4vh"><Minus /></el-icon>
-      </div>
-    </el-tooltip>
+    <div :class="{ minus: isMinus }" @click="minusEvent" @mousemove="moveEvent">
+      <el-icon style="width: 5vh; height: 5vh"><Minus /></el-icon>
+    </div>
 
-    <el-tooltip content="最大化" placement="bottom" hide-after="0">
-      <div class="fullScreen" @click="fullScreenEvent">
-        <el-icon style="width: 5vh; height: 4vh"><FullScreen /></el-icon>
-      </div>
-    </el-tooltip>
+    <div class="fullScreen" @click="fullScreenEvent">
+      <el-icon style="width: 5vh; height: 5vh"><FullScreen /></el-icon>
+    </div>
 
-    <el-tooltip content="关闭" placement="bottom-start" hide-after="0">
-      <div class="closeBold" @click="closeBoldEvent">
-        <el-icon style="width: 5vh; height: 4vh; color: #666"><CloseBold /></el-icon></div
-    ></el-tooltip>
+    <div class="closeBold" @click="closeBoldEvent">
+      <el-icon style="width: 5vh; height: 5vh; color: #666"><CloseBold /></el-icon>
+    </div>
   </div>
 </template>
 
@@ -44,6 +39,12 @@ const baseX = ref(0),
   baseY = ref(0) //监听坐标
 
 const isTop = ref(false)
+
+//最小化样式问题
+const isMinus = ref(true)
+const moveEvent = () => {
+  isMinus.value = true
+}
 
 //帮助文档
 const help = () => {
@@ -73,7 +74,7 @@ const mouseDown = (e) => {
       const x = e.clientX - baseX.value
       const y = e.clientY - baseY.value
 
-      window.electron.ipcRenderer.send('move-application', {
+      window.electron.ipcRenderer.invoke('move-application', {
         posX: x,
         posY: y
       })
@@ -97,6 +98,7 @@ const minusEvent = () => {
     event: 'event',
     data: 'null'
   })
+  isMinus.value = !isMinus.value
 }
 
 //窗口最大化
@@ -123,7 +125,7 @@ const closeBoldEvent = () => {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: 4vh;
+  height: 5vh;
 
   .minus,
   .fullScreen,
@@ -136,5 +138,8 @@ const closeBoldEvent = () => {
 }
 .toTop {
   transform: rotate(45deg);
+}
+
+.isminus {
 }
 </style>

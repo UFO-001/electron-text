@@ -1,7 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain, dialog, Tray, Menu } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog, Tray, Menu, session } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 //引入封装组件
 import EventRouter from './router/EventRouter.js'
@@ -32,15 +34,11 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
+    session.fromPartition(`persist:mainWindow${mainWindow.id}`, { cache: true })
+
     mainWindow.show()
     // console.log(mainWindow.id, 'idididid')
   })
-
-  // const view = new BrowserView()
-  // view.setBounds({ x: 300, y: 200, width: 500, height: 500 })
-  // mainWindow.setBrowserView(view)
-  // view.webContents.loadURL('https://baidu.com')
-  //封装过后的关闭窗口
 
   const eventRouter = new EventRouter()
   eventRouter.addApi('app', app)
@@ -50,26 +48,26 @@ function createWindow(): void {
 
   eventRouter.addRoutes(routers)
   //接收渲染进程的参数
-  let count = 0
+
   ipcMain.on('renderer-to-main', (e, data) => {
+    // console.log(mainWindow.isFocused(), 'isFocused()')
+    // console.log(mainWindow.id, 'isFocused()')
+
     const win = BrowserWindow.fromId(mainWindow.id)
     const win2 = BrowserWindow.getFocusedWindow()
-    if (win !== null && count === 0 && win == win2) {
+    if (win !== null && win == win2) {
       // console.log(mainWindow.id, win !== null && count === 0 && win == win2, count, 'ssssss')
-      count = 1
+
       eventRouter.addApi('window', win)
 
       eventRouter.router(data)
-      setTimeout(() => {
-        count = 0
-      }, 1000)
     }
     //data就是渲染进程传过来的参数
     // console.log(mainWindow.id, 'dddddd')
   })
 
   // 拖拽事件
-  ipcMain.on('move-application', (e, data) => {
+  ipcMain.handle('move-application', (e, data) => {
     const win = BrowserWindow.fromId(mainWindow.id)
     const win2 = BrowserWindow.getFocusedWindow()
     // console.log(win == win2)
@@ -138,53 +136,8 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-// ipcMain.handle('open-file-dialog', () => {
-//   const win = new BrowserWindow({
-//     width: 1100,
-//     height: 750,
-//     webPreferences: {
-//       nodeIntegration: true,
-//       contextIsolation: false,
-//       allowRunningInsecureContent: true,
-//       nodeIntegrationInWorker: true,
-//       nodeIntegrationInSubFrames: true,
-//       plugins: true
-//     }
-//   })
-
-//   win.webContents.session.loadExtension(join(app.getPath('desktop'), '/10.2.0.9952_0'))
-//   win.webContents.session.on('extension-ready', (e, ex) => {
-//     // console.log(ex.path, ex.url, 'lllllllllllllllllllllllllllllllllllllllll')
-//     win.loadURL(ex.url + 'browserActionPopup.html')
-//   })
-//   // win.loadURL('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/browserActionPopup.html')
-// })
-
 //系统托盘菜单
 const contextMenu = Menu.buildFromTemplate([
-  {
-    label: '多用户',
-    submenu: [
-      {
-        label: '用户1',
-        id: 'user1',
-        click: () => {
-          createWindow()
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          contextMenu.getMenuItemById('user1')!.enabled = false
-        }
-      },
-      {
-        label: '用户2',
-        id: 'user2',
-        click: () => {
-          createWindow()
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          contextMenu.getMenuItemById('user2')!.enabled = false
-        }
-      }
-    ]
-  },
   { label: '版本号3.3.5', enabled: false },
   {
     label: '帮助文档',

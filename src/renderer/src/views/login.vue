@@ -42,10 +42,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { Key } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import headerCompontent from '@components/header.vue'
+
+import { captchaImage } from '@api/login'
+
+onBeforeMount(async () => {
+  await captchaImage()
+})
+
 //使用router
 const router = useRouter()
 
@@ -81,7 +88,7 @@ const mouseDown = (e) => {
       const x = e.clientX - baseX.value
       const y = e.clientY - baseY.value
 
-      window.electron.ipcRenderer.send('move-application', {
+      window.electron.ipcRenderer.invoke('move-application', {
         posX: x,
         posY: y
       })

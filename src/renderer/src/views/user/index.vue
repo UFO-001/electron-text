@@ -4,11 +4,14 @@
     <header>
       <div class="h-left">
         <span>会话列表</span>
-        <span>会话:0/3</span>
+        <span>会话:{{ aListOfSessions }}/3</span>
         <a href="">
           <el-icon><Share /></el-icon> 分享链接
         </a>
-        <span class="create">
+        <span
+          :class="{ create: true, isSelected: aListOfSessions == 3 ? true : false }"
+          @click="createBtn"
+        >
           <el-icon><CirclePlus /></el-icon> 新增 {{ plat }}
         </span>
       </div>
@@ -21,7 +24,7 @@
 
     <!--主体内容 -->
     <main>
-      <Table></Table>
+      <Table v-model="aListOfSessions"></Table>
     </main>
   </div>
 </template>
@@ -32,12 +35,20 @@ import { Share, CirclePlus, Lock } from '@element-plus/icons-vue'
 import Table from './table/index.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+
+//会话数
+const aListOfSessions = ref(0)
+
 const route = useRoute()
 const plat = ref('')
 onMounted(() => {
   plat.value = route.path.split('/')[1]
   // console.log(route.path, 'paaaaaaaa')
 })
+
+const createBtn = () => {
+  console.log('33333')
+}
 </script>
 
 <style scoped lang="scss">
@@ -109,5 +120,10 @@ onMounted(() => {
       }
     }
   }
+}
+
+.isSelected {
+  pointer-events: none;
+  color: #929292 !important;
 }
 </style>
