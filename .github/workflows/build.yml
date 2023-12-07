@@ -43,7 +43,7 @@ jobs:
         run: |
           npm run build:win
         env:
-          GH_TOKEN: ${{ secrets.TOKEN }}
+          GH_TOKEN: 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
 
       # step5: cleanup artifacts in dist_electron
       - name: cleanup artifacts for windows
@@ -65,6 +65,8 @@ jobs:
         with:
           files: 'dist/**'
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: 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
 # 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
 # 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
+
+# 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
