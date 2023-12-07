@@ -49,7 +49,7 @@ jobs:
       - name: cleanup artifacts for windows
         if: matrix.os == 'windows-2019'
         run: |
-          npx rimraf "dist/*" --exclude="*.exe" --exclude="*.yml"
+          npx rimraf "dist/*" -e "*.exe" -e "*.yml"
 
       # step6: upload artifacts
       - name: upload artifacts
