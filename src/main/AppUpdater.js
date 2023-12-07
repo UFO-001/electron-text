@@ -39,7 +39,9 @@ export default class AppUpdater {
       })
     })
 
-    autoUpdater.on('error', (e) => {})
+    autoUpdater.on('error', (e) => {
+      console.log('eeee')
+    })
 
     //软件正在下载更新中...
     autoUpdater.on('download-progress', (progressInfo) => {
