@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest]
+        os: [windows-2019]
 
     # create steps
     steps:
@@ -39,15 +39,15 @@ jobs:
 
       # step4: build app for mac/win
       - name: build windows app
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-2019'
         run: |
           npm run build:win
         env:
-          GH_TOKEN: ${{ secrets.TOKENS }}
+          GH_TOKEN: ${{ secrets.TOKEN }}
 
       # step5: cleanup artifacts in dist_electron
       - name: cleanup artifacts for windows
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-2019'
         run: |
           npx rimraf "dist/!(*.exe)"
 
@@ -65,5 +65,5 @@ jobs:
         with:
           files: 'dist/**'
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKENS }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 # 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
