@@ -1,5 +1,5 @@
 import path from 'path'
-import { app, dialog } from 'electron'
+import { app, dialog, BrowserWindow } from 'electron'
 
 import logger from 'electron-log'
 //使应用程序能够自动更新
@@ -9,7 +9,7 @@ import { is } from '@electron-toolkit/utils'
 export default class AppUpdater {
   constructor(window) {
     if (is.dev) {
-      console.log(is.dev, 'is.dev')
+      // console.log(is.dev, 'is.dev')
       Object.defineProperty(app, 'isPackaged', {
         get() {
           return true
@@ -26,16 +26,28 @@ export default class AppUpdater {
 
     //发现了有新版本
     autoUpdater.on('update-available', () => {
-      dialog.showMessageBox({
-        title: '提示',
-        message: '发现新版本，准备下载'
-      })
+      dialog
+        .showMessageBox({
+          type: 'info',
+          title: '软件更新',
+          message: '发现新版本, 确定更新?',
+          buttons: ['确定', '取消']
+        })
+        .then((resp) => {
+          console.log(resp, 'resp')
+          if (resp.response === 0) {
+            createWindow(window)
+            autoUpdater.downloadUpdate()
+          }
+        })
     })
-    //没有更新
+    // 没有更新
     autoUpdater.on('update-not-available', () => {
       dialog.showMessageBox({
+        type: 'info',
         title: '提示',
-        message: '当前版本已经是最新版本，无需更新'
+        message: '当前版本已经是最新版本，无需更新',
+        buttons: ['确定']
       })
     })
 
@@ -43,24 +55,19 @@ export default class AppUpdater {
       console.log('eeee')
     })
 
-    //软件正在下载更新中...
+    // 软件正在下载更新中...
     autoUpdater.on('download-progress', (progressInfo) => {
-      console.log(progressInfo.percent)
-      window.webContents.send('main-to-renderer', {
-        name: 'download-progress',
-        event: 'event',
-        msg: '正在下载',
-        data: progressInfo.percent
-      })
+      console.log(progressInfo.percent, '888888')
+      window.webContents.send('downloadProgress', progressInfo)
     })
     //更新下载完成
     autoUpdater.on('update-downloaded', () => {
-      window.webContents.send('main-to-renderer', {
-        name: 'update-downloaded',
-        event: 'event',
-        msg: '下载完成，准备安装',
-        data: null
-      })
+      // window.webContents.send('main-to-renderer', {
+      //   name: 'update-downloaded',
+      //   event: 'event',
+      //   msg: '下载完成，准备安装',
+      //   data: null
+      // })
       dialog
         .showMessageBox(window, {
           title: '安装新版本',
@@ -76,9 +83,35 @@ export default class AppUpdater {
 
     // 非打包情况下，下面的函数不起作用，开发环境要用checkForUpdates()，但是这个函数有点烦。
     autoUpdater.checkForUpdatesAndNotify()
+    // autoUpdater.checkForUpdates()
   }
 
-  start() {
-    autoUpdater.downloadUpdate()
-  }
+  // start() {
+  //   autoUpdater.downloadUpdate()
+  // }
+}
+
+function createWindow(window) {
+  const updateWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    parent: window,
+    autoHideMenuBar: true,
+    ...(process.platform === 'linux'
+      ? {
+          icon: path.join(__dirname, '../../build/icon.png')
+        }
+      : {}),
+    webPreferences: {
+      preload: path.join(__dirname, '../preload/index.js'),
+      sandbox: false
+    }
+  })
+  updateWindow.on('ready-to-show', () => {
+    updateWindow.show()
+  })
+  // console.log(process.env['ELECTRON_RENDERER_URL'] + '/#/update', '返回的地址')
+  // //http://localhost:5173
+  // //http://localhost:5173/#/maskList
+  updateWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/update')
 }

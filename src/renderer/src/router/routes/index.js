@@ -54,5 +54,9 @@ export const routes = [
   {
     path: '/login',
     component: () => import('@views/login.vue')
+  },
+  {
+    path: '/update',
+    component: () => import('@views/update/index.vue')
   }
 ]

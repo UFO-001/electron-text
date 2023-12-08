@@ -47,11 +47,11 @@ import { Key } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import headerCompontent from '@components/header.vue'
 
-import { captchaImage } from '@api/login'
+// import { captchaImage } from '@api/login'
 
-onBeforeMount(async () => {
-  await captchaImage()
-})
+// onBeforeMount(async () => {
+//   await captchaImage()
+// })
 
 //使用router
 const router = useRouter()

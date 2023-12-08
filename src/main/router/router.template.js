@@ -1,5 +1,4 @@
 import EventRoute from './EventRoute'
-import { screen, ipcMain } from 'electron'
 
 const routers = []
 
@@ -66,11 +65,16 @@ routers.push(
     // console.log(api.window.isAlwaysOnTop(), ' top-window')
   })
 )
-
+let update = null
 //检查更新
 routers.push(
   new EventRoute('update', 'event', (api, data = {}) => {
-    new AppUpdater(api.window)
+    console.log('22')
+    if (update == null) {
+      update = new AppUpdater(api.window)
+    } else {
+      console.log(update(api.window), 'update')
+    }
   })
 )
 export default routers
