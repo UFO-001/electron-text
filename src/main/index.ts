@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, dialog, Tray, Menu, session } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -34,7 +34,7 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
-    session.fromPartition(`persist:mainWindow${mainWindow.id}`, { cache: true })
+    // session.fromPartition(`persist:mainWindow${mainWindow.id}`, { cache: true })
 
     mainWindow.show()
     // console.log(mainWindow.id, 'idididid')

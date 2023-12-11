@@ -42,16 +42,18 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Key } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import headerCompontent from '@components/header.vue'
 
 // import { captchaImage } from '@api/login'
 
-// onBeforeMount(async () => {
-//   await captchaImage()
-// })
+onMounted(() => {
+  window.electron.ipcRenderer.on('info', (e, tag) => {
+    console.log(tag)
+  })
+})
 
 //使用router
 const router = useRouter()

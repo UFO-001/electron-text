@@ -65,15 +65,15 @@ routers.push(
     // console.log(api.window.isAlwaysOnTop(), ' top-window')
   })
 )
-let update = null
+
 //检查更新
+let update = null
 routers.push(
   new EventRoute('update', 'event', (api, data = {}) => {
-    console.log('22')
     if (update == null) {
       update = new AppUpdater(api.window)
     } else {
-      console.log(update(api.window), 'update')
+      update.start()
     }
   })
 )

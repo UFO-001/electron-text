@@ -26,6 +26,11 @@ const changeColor = (percentage) => {
 onMounted(() => {
   window.electron.ipcRenderer.on('downloadProgress', (e, arg) => {
     percentage.value = parseInt(arg.percent)
+    console.log('percentage', percentage.value)
+  })
+
+  window.electron.ipcRenderer.on('error', (e, arg) => {
+    console.log('error', arg)
   })
 })
 </script>
