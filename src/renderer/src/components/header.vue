@@ -1,7 +1,7 @@
 <template>
   <div class="header" @mousedown="mouseDown" @mouseup="mouseUp" @mouseleave="mouseleave">
     <el-tooltip content="帮助文档" placement="bottom" :hide-after="0">
-      <div class="minus" @click="help">
+      <div class="fullScreen" @click="help">
         <el-icon style="width: 5vh; height: 5vh; color: #666">
           <QuestionFilled />
         </el-icon>
@@ -9,15 +9,39 @@
     </el-tooltip>
 
     <el-tooltip content="检查更新" placement="bottom" :hide-after="0">
-      <div class="minus" @click="updateBtn">
-        <el-icon style="width: 5vh; height: 5vh; color: #666">
-          <QuestionFilled />
-        </el-icon>
+      <div class="update">
+        <Transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
+        >
+          <el-icon
+            v-show="isDownload"
+            style="width: 5vh; height: 5vh; color: #666"
+            :class="{ revolve: isUpdate }"
+            @click="updateBtn"
+          >
+            <Refresh />
+          </el-icon>
+        </Transition>
+        <Transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
+        >
+          <el-progress
+            v-show="!isDownload"
+            type="circle"
+            :percentage="percentage"
+            status="success"
+            width="20"
+            stroke-width="2"
+          >
+          </el-progress>
+        </Transition>
       </div>
     </el-tooltip>
 
     <el-tooltip content="置顶" placement="bottom" :hide-after="0">
-      <div class="minus" @click="top">
+      <div class="fullScreen" @click="top">
         <el-icon style="width: 5vh; height: 5vh">
           <img style="width: 2.5vh; height: 2.5vh" src="@assets/image/置顶.png" alt="" />
         </el-icon>
@@ -39,7 +63,7 @@
 </template>
 
 <script setup>
-import { Minus, FullScreen, CloseBold, QuestionFilled } from '@element-plus/icons-vue'
+import { Minus, FullScreen, CloseBold, QuestionFilled, Refresh } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
 const isDown = ref(false) // 鼠标状态
@@ -55,11 +79,29 @@ const moveEvent = () => {
 }
 
 //检查更新
+const isDownload = ref(true) //是否在下载
+const isUpdate = ref(false)
+const percentage = ref(0)
+
 const updateBtn = () => {
+  isUpdate.value = true
   window.electron.ipcRenderer.send('renderer-to-main', {
     name: 'update',
     event: 'event',
     data: 'null'
+  })
+
+  window.electron.ipcRenderer.on('update', (e, tags) => {
+    isUpdate.value = tags
+  })
+  window.electron.ipcRenderer.on('isDownload', (e, tags) => {
+    isDownload.value = tags
+  })
+  window.electron.ipcRenderer.on('percentage', (e, tags) => {
+    if (tags >= 100) {
+      isDownload.value = true
+    }
+    percentage.value = tags
   })
 }
 
@@ -144,19 +186,28 @@ const closeBoldEvent = () => {
   align-items: center;
   height: 5vh;
 
+  .update,
   .minus,
   .fullScreen,
   .closeBold {
+    position: relative;
     &:hover {
       cursor: pointer;
       background-color: #c2bebe;
     }
   }
+
+  .revolve {
+    animation: revolve 1s linear infinite;
+  }
+}
+
+@keyframes revolve {
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 .toTop {
   transform: rotate(45deg);
-}
-
-.isminus {
 }
 </style>

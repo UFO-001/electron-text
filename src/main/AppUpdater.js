@@ -29,22 +29,23 @@ export default class AppUpdater {
     autoUpdater.autoDownload = false
 
     //发现了有新版本
-    autoUpdater.on('update-available', () => {
+    autoUpdater.on('update-available', (e) => {
+      window.webContents.send('update', false)
       dialog
         .showMessageBox({
           type: 'info',
           title: '软件更新',
-          message: '发现新版本, 确定更新?',
+          message: `发现${e.version}版本, 是否更新?`,
           buttons: ['取消', '确定']
         })
         .then((resp) => {
           // console.log(resp, 'resp')
           if (resp.response === 1) {
             // createWindow(window)
+            window.webContents.send('isDownload', false)
             autoUpdater.downloadUpdate()
           }
         })
-      // window.webContents.send('downloadProgress', ['2222'])
     })
     // 没有更新
     autoUpdater.on('update-not-available', () => {
@@ -56,56 +57,31 @@ export default class AppUpdater {
       })
     })
 
-    // function createWindow(window, e) {
-    //   const updateWindow = new BrowserWindow({
-    //     width: 500,
-    //     height: 200,
-    //     parent: window,
-    //     autoHideMenuBar: true,
-    //     ...(process.platform === 'linux'
-    //       ? {
-    //           icon: path.join(__dirname, '../../build/icon.png')
-    //         }
-    //       : {}),
-    //     webPreferences: {
-    //       preload: path.join(__dirname, '../preload/index.js'),
-    //       sandbox: false,
-    //       plugins: true,
-    //       webSecurity: false,
-    //       nodeIntegration: true,
-    //       contextIsolation: false
-    //     }
-    //   })
-    //   updateWindow.on('ready-to-show', () => {
-    //     updateWindow.show()
-    //   })
-
-    //   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    //     updateWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/update')
-    //   } else {
-    //     updateWindow.loadFile('app://./index.html')
-    //   }
-
-    //   // updateWindow.loadFile('app://./index.html')
-    //   if (e) {
-    //     updateWindow.webContents.send('error', e)
-    //   }
-    // }
-
-    autoUpdater.on('error', (e) => {
-      // createWindow(window, e)
-      // console.log(e, 'eee')
-      window.webContents.send('info', e)
+    autoUpdater.on('error', () => {
+      dialog.showMessageBox(window, {
+        title: '更新出错',
+        message: '更新出错，请检查网络连接',
+        type: 'error',
+        buttons: ['关闭']
+      })
     })
 
-    // 软件正在下载更新中...
+    // 软件正在下载更新中...percentage
     autoUpdater.on('download-progress', (progressInfo) => {
-      // console.log(progressInfo.percent, '888888')
-      // updateWindow.webContents.send('downloadProgress', progressInfo)
+      window.webContents.send('percentage', progressInfo.percent)
+      // console.log(progressInfo.percent, 'percent')
+      if (progressInfo.percent >= 100) {
+        window.setProgressBar(-1)
+      } else {
+        window.setProgressBar(progressInfo.percent / 100, {
+          mode: 'normal'
+        })
+      }
     })
 
     //更新下载完成
     autoUpdater.on('update-downloaded', () => {
+      window.webContents.send('percentage', 100)
       dialog
         .showMessageBox(window, {
           title: '安装新版本',

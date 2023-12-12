@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, dialog, Tray, Menu } from 'electron
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import packageJson from '../../package.json'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
@@ -26,7 +27,6 @@ function createWindow(): void {
       plugins: true,
       nodeIntegration: true,
       contextIsolation: false,
-      allowRunningInsecureContent: true,
       nodeIntegrationInWorker: true,
       nodeIntegrationInSubFrames: true,
       webviewTag: true
@@ -138,7 +138,7 @@ app.on('window-all-closed', () => {
 
 //系统托盘菜单
 const contextMenu = Menu.buildFromTemplate([
-  { label: '版本号3.3.5', enabled: false },
+  { label: `版本号${packageJson.version}`, enabled: false },
   {
     label: '帮助文档',
     click: () => {

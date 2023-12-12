@@ -72,6 +72,7 @@ routers.push(
   new EventRoute('update', 'event', (api, data = {}) => {
     if (update == null) {
       update = new AppUpdater(api.window)
+      update.start()
     } else {
       update.start()
     }

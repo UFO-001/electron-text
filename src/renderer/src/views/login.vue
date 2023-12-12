@@ -49,12 +49,6 @@ import headerCompontent from '@components/header.vue'
 
 // import { captchaImage } from '@api/login'
 
-onMounted(() => {
-  window.electron.ipcRenderer.on('info', (e, tag) => {
-    console.log(tag)
-  })
-})
-
 //使用router
 const router = useRouter()
 
